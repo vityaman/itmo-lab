@@ -1,0 +1,48 @@
+open "res/sample.json"
+insert {
+    name: "Programming Lecture #1",
+    coordinates: {
+        x: 10, y: 12
+    },
+    type: "VIP",
+    person: {
+        height: 170,
+        passportId: "itmo1337812763",
+        location: {
+            x: 10, y: 12, z: 7,
+            name: "SPb"
+        }
+    }
+}
+insert {
+    name: "Music Festival",
+    coordinates: {
+        x: 12, y: 78
+    },
+    type: "USUAL",
+    person: {
+        height: 170,
+        passportId: "sdjvdsjknakjvbksl",
+        location: {
+            x: 110, y: 12132, z: 7.6,
+            name: "Home"
+        }
+    }
+}
+insert {
+    name: "Test ticket aa",
+    coordinates: {
+        x: 12, y: 4
+    },
+    type: "USUAL",
+    person: {
+        height: 35,
+        passportId: "jkdsvhakjv",
+        location: {
+            x: 110, y: 2, z: 7.6,
+            name: "Yes"
+        }
+    }
+}
+all
+save
