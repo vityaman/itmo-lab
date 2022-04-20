@@ -1,10 +1,13 @@
 package ru.vityaman.tidb.command;
 
-import ru.vityaman.tidb.ui.printer.Printer;
+import static ru.vityaman.tidb.ui.printer.ConsoleColor.BLUE;
+import static ru.vityaman.tidb.ui.printer.ConsoleColor.WHITE;
+import static ru.vityaman.tidb.ui.printer.ConsoleColor.YELLOW;
 
 import java.util.List;
 
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.*;
+import ru.vityaman.tidb.lang.interpreter.Executable;
+import ru.vityaman.tidb.ui.printer.Printer;
 
 /**
  * Represents a 'help' command.

@@ -3,8 +3,8 @@ package ru.vityaman.tidb.data.json;
 import java.util.Map;
 
 import ru.vityaman.tidb.data.field.Field;
-import ru.vityaman.tidb.data.field.Json;
 import ru.vityaman.tidb.data.field.Verified;
+import ru.vityaman.tidb.data.json.field.JsonField;
 import ru.vityaman.tidb.data.model.Coordinates;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.resource.CoordinatesResource;
@@ -22,11 +22,11 @@ public final class JsonCoordinates extends JsonResource
     public JsonCoordinates(Map<String, Object> json) {
         super(json);
         try {
-            this.x = new Verified<>(new Json<>("x", this.json),
+            this.x = new Verified<>(new JsonField<>("x", this.json),
                 x -> Coordinates.RequireValid.x(x.doubleValue()));
-            this.y = new Verified<>(new Json<>("y", this.json),
+            this.y = new Verified<>(new JsonField<>("y", this.json),
                 y -> Coordinates.RequireValid.y(y.doubleValue()));
-        } catch (InvalidValueException | Json.InvalidJsonException e) {
+        } catch (InvalidValueException | JsonField.InvalidJsonException e) {
             throw new InvalidResourceException(
                     "Invalid resource " + json + " as " + e.getMessage(), e);
     }

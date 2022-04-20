@@ -1,11 +1,12 @@
 package ru.vityaman.tidb.command;
 
-import ru.vityaman.tidb.lang.interpreter.Instruction;
-import ru.vityaman.tidb.ui.printer.Printer;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+
+import ru.vityaman.tidb.lang.interpreter.Executable;
+import ru.vityaman.tidb.lang.interpreter.Instruction;
+import ru.vityaman.tidb.ui.printer.Printer;
 
 /**
  * Represents a 'history' command.

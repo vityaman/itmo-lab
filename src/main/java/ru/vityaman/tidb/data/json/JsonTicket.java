@@ -1,6 +1,8 @@
 package ru.vityaman.tidb.data.json;
 
 import ru.vityaman.tidb.data.field.*;
+import ru.vityaman.tidb.data.json.field.JsonField;
+import ru.vityaman.tidb.data.json.field.OptionalJson;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Ticket;
 import ru.vityaman.tidb.data.model.TicketType;
@@ -25,21 +27,21 @@ public class JsonTicket extends JsonResource
         super(json);
 
         try {
-            this.name = new Verified<>(new Json<>("name", this.json),
+            this.name = new Verified<>(new JsonField<>("name", this.json),
                 Ticket.RequireValid::name);
             this.price = new OptionalVerified<>(
                 new OptionalJson<>("price", this.json),
                 Ticket.RequireValid::price);
             this.type = new Convertable<TicketType, String>(
-                new Json<>("type", this.json),
+                new JsonField<>("type", this.json),
                 Enum::toString,
                 TicketType::valueOf);
-            this.coordinates = new JsonCoordinates(new Json<Map<String, Object>>(
+            this.coordinates = new JsonCoordinates(new JsonField<Map<String, Object>>(
                 "coordinates", this.json).value());
-            this.person = new JsonPerson(new Json<Map<String, Object>>(
+            this.person = new JsonPerson(new JsonField<Map<String, Object>>(
                 "person", this.json).value());
         } catch (InvalidValueException
-                | Json.InvalidJsonException
+                | JsonField.InvalidJsonException
                 | InvalidResourceException e) {
             throw new InvalidResourceException(
                     "Invalid resource " + json + " as " + e.getMessage(), e);

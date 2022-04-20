@@ -4,7 +4,7 @@ import java.util.*;
 import java.time.Clock;
 
 import ru.vityaman.tidb.data.field.Field;
-import ru.vityaman.tidb.data.field.Json;
+import ru.vityaman.tidb.data.json.field.JsonField;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Ticket;
 import ru.vityaman.tidb.data.resource.exception.InvalidResourceException;
@@ -43,8 +43,8 @@ public final class JsonTickets extends JsonResource
         this.clock = clock;
 
         try {
-            this.nextId = new Json<>("nextId", this.json);
-            this.list = new Json<List<Map<String, Object>>>(
+            this.nextId = new JsonField<>("nextId", this.json);
+            this.list = new JsonField<List<Map<String, Object>>>(
                     "list", this.json).value();
 
             this.ticketById = new HashMap<>(list.size());
@@ -53,7 +53,7 @@ public final class JsonTickets extends JsonResource
                         new JsonTicketEntry(ticket).id(),
                         ticket);
             }
-        } catch (InvalidValueException | Json.InvalidJsonException e) {
+        } catch (InvalidValueException | JsonField.InvalidJsonException e) {
             throw new InvalidResourceException(
                     "Invalid resource " + json + " as " + e.getMessage(), e);
         }

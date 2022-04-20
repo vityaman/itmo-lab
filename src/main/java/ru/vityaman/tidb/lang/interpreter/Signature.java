@@ -2,6 +2,7 @@ package ru.vityaman.tidb.lang.interpreter;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class Signature {
     private final String name;
@@ -57,6 +58,9 @@ public final class Signature {
     @Override
     public String toString() {
         return String.format("%s(%s\b)",
-                name, Arrays.toString(argumentTypes).substring(1));
+                name, Arrays.stream(argumentTypes)
+                            .map(Class::getName)
+                            .collect(Collectors.toList())
+                            .toString().substring(1));
     }
 }

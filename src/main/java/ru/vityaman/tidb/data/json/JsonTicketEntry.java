@@ -1,9 +1,9 @@
 package ru.vityaman.tidb.data.json;
 
 import ru.vityaman.tidb.data.field.Convertable;
-import ru.vityaman.tidb.data.field.Json;
 import ru.vityaman.tidb.data.field.ReadonlyField;
 import ru.vityaman.tidb.data.field.Verified;
+import ru.vityaman.tidb.data.json.field.JsonField;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.TicketResource;
@@ -26,13 +26,13 @@ public final class JsonTicketEntry extends JsonTicket
 
         try {
             id = new Verified<>(
-                    new Json<>("id", this.json),
+                    new JsonField<>("id", this.json),
                     TicketEntry.RequireValid::id);
             creationDate = new Convertable<>(
-                    new Json<>("creationDate", this.json),
+                    new JsonField<>("creationDate", this.json),
                     (date) -> new StringDate(date).asString(),
                     (string) -> new StringDate(string).asDate());
-        } catch (InvalidValueException | Json.InvalidJsonException e) {
+        } catch (InvalidValueException | JsonField.InvalidJsonException e) {
             throw new InvalidResourceException(
                     "Invalid resource " + json + " as " + e.getMessage(), e);
         }

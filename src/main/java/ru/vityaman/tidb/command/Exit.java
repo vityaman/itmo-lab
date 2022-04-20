@@ -2,6 +2,8 @@ package ru.vityaman.tidb.command;
 
 import java.util.List;
 
+import ru.vityaman.tidb.lang.interpreter.Executable;
+
 /**
  * Represents 'exit' command to stop app running.
  */

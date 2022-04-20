@@ -1,17 +1,19 @@
-package ru.vityaman.tidb.data.field;
+package ru.vityaman.tidb.data.json.field;
 
 import java.util.Map;
+
+import ru.vityaman.tidb.data.field.Field;
 
 /**
  * Wrapper of java.util.Map to
  * convenient access to its members.
  * @param <T> type
  */
-public class Json<T> implements Field<T> {
+public class JsonField<T> implements Field<T> {
     protected final String name;
     protected final Map<String, Object> container;
 
-    public Json(String name, Map<String, Object> container) {
+    public JsonField(String name, Map<String, Object> container) {
         this.name = name;
         this.container = container;
     }

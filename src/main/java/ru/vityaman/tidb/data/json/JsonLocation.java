@@ -2,8 +2,8 @@ package ru.vityaman.tidb.data.json;
 
 import java.util.Map;
 
-import ru.vityaman.tidb.data.field.Json;
 import ru.vityaman.tidb.data.field.Verified;
+import ru.vityaman.tidb.data.json.field.JsonField;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.data.resource.LocationResource;
@@ -24,15 +24,15 @@ public final class JsonLocation extends JsonResource
         super(json);
 
         try {
-            this.x = new Verified<>(new Json<>("x", this.json),
+            this.x = new Verified<>(new JsonField<>("x", this.json),
                     x -> Location.RequireValid.x(x.floatValue()));
-            this.y = new Verified<>(new Json<>("y", this.json),
+            this.y = new Verified<>(new JsonField<>("y", this.json),
                     y -> Location.RequireValid.y(y.doubleValue()));
-            this.z = new Verified<>(new Json<>("z", this.json),
+            this.z = new Verified<>(new JsonField<>("z", this.json),
                     z -> Location.RequireValid.z(z.floatValue()));
-            this.name = new Verified<>(new Json<>("name", this.json),
+            this.name = new Verified<>(new JsonField<>("name", this.json),
                     RequireValid::name);
-        } catch (InvalidValueException | Json.InvalidJsonException e) {
+        } catch (InvalidValueException | JsonField.InvalidJsonException e) {
             throw new InvalidResourceException(
                 "Invalid resource " + json + " as " + e.getMessage(), e);
     }

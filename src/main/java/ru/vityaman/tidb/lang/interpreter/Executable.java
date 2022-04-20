@@ -1,7 +1,6 @@
-package ru.vityaman.tidb.command;
+package ru.vityaman.tidb.lang.interpreter;
 
 import java.util.List;
-
 
 /**
  * Represents a something that

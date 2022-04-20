@@ -1,7 +1,4 @@
-package ru.vityaman.tidb.command;
-
-import ru.vityaman.tidb.lang.interpreter.Signature;
-
+package ru.vityaman.tidb.lang.interpreter;
 
 /**
  * Represents interpreter command.
@@ -27,7 +24,6 @@ public final class Command {
         return signature;
     }
 
-
     /**
      * @return attached executable.
      */
@@ -35,7 +31,8 @@ public final class Command {
         return executable;
     }
 
-    public static Command of(Executable executable, String name,
+    public static Command of(Executable executable,
+                             String name,
                              Class<?>... types) {
         return new Command(new Signature(name, types), executable);
     }

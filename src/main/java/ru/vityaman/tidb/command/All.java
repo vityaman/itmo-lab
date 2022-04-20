@@ -1,34 +1,34 @@
 package ru.vityaman.tidb.command;
 
+import java.util.List;
+
 import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.printer.Printer;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Represents a 'all' command, that prints
  * all tickets from collection.
  */
 public final class All implements Executable {
-    private final Printer printer;
-    private final Supplier<Tickets> tickets;
+    private final Printer out;
+    private final Tickets tickets;
 
 
     /**
-     * @param printer where to print.
+     * @param out where to print.
      * @param tickets source of collection.
      */
-    public All(Printer printer, Supplier<Tickets> tickets) {
-        this.printer = printer;
+    public All(Printer out, Tickets tickets) {
+        this.out = out;
         this.tickets = tickets;
     }
 
     @Override
     public void execute(List<Object> args) {
-        for (TicketEntry ticket : tickets.get().all()) {
-            printer.println(ticket.repr());
+        for (TicketEntry ticket : tickets.all()) {
+            out.println(ticket.repr());
         }
     }
 }

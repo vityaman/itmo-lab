@@ -5,8 +5,8 @@ import java.util.Map;
 import ru.vityaman.tidb.data.field.Field;
 import ru.vityaman.tidb.data.model.Person;
 import ru.vityaman.tidb.data.resource.PersonResource;
-import ru.vityaman.tidb.data.field.Json;
 import ru.vityaman.tidb.data.field.Verified;
+import ru.vityaman.tidb.data.json.field.JsonField;
 
 /**
  * Json Person.
@@ -21,11 +21,11 @@ public final class JsonPerson extends JsonResource
     public JsonPerson(Map<String, Object> json) {
         super(json);
 
-        this.height = new Verified<>(new Json<>("height", this.json),
+        this.height = new Verified<>(new JsonField<>("height", this.json),
                 RequireValid::height);
-        this.passportId = new Verified<>(new Json<>("passportId", this.json),
+        this.passportId = new Verified<>(new JsonField<>("passportId", this.json),
                 RequireValid::passportId);
-        this.location = new JsonLocation(new Json<Map<String, Object>>(
+        this.location = new JsonLocation(new JsonField<Map<String, Object>>(
             "location", this.json).value());
     }
 

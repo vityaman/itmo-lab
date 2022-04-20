@@ -1,28 +1,28 @@
 package ru.vityaman.tidb.command;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ru.vityaman.tidb.data.json.JsonTicket;
 import ru.vityaman.tidb.data.model.Ticket;
 import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.printer.Printer;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * Represents a 'insert' command with argument.
  */
 public final class InsertArgument implements Executable {
     private final Printer out;
-    private final Supplier<Tickets> tickets;
+    private final Tickets tickets;
 
     /**
      * @param out where to print out new ticket id and creation date
      * @param tickets collection to edit
      */
-    public InsertArgument(Printer out, Supplier<Tickets> tickets) {
+    public InsertArgument(Printer out, Tickets tickets) {
         this.out = out;
         this.tickets = tickets;
     }
@@ -31,7 +31,7 @@ public final class InsertArgument implements Executable {
     public void execute(List<Object> args) {
         Ticket ticket = new JsonTicket(
                 new HashMap<>((Map<String, Object>) args.get(0)));
-        TicketEntry entry = tickets.get()
+        TicketEntry entry = tickets
                 .insertionOf(ticket)
                 .execute()
                 .result();

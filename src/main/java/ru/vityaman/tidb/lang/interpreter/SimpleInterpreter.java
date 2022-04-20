@@ -1,7 +1,5 @@
 package ru.vityaman.tidb.lang.interpreter;
 
-import ru.vityaman.tidb.command.Command;
-import ru.vityaman.tidb.command.Executable;
 import ru.vityaman.tidb.command.exception.NoSuchCommandException;
 
 import java.util.HashMap;
@@ -10,8 +8,11 @@ import java.util.Map;
 public class SimpleInterpreter implements Interpreter {
     private final Map<String, Map<Signature, Executable>> commandBySignatureByKeyword;
 
-    public SimpleInterpreter() {
+    public SimpleInterpreter(Command... commands) {
         this.commandBySignatureByKeyword = new HashMap<>();
+        for (Command cmd : commands) {
+            load(cmd);
+        }
     }
 
     @Override
@@ -31,7 +32,7 @@ public class SimpleInterpreter implements Interpreter {
                 return commands.get(original);
             }
         }
-        throw new NoSuchCommandException(signature.name());
+        throw new NoSuchCommandException(signature.toString());
     }
 
     public void load(Command command) {
