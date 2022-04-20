@@ -38,6 +38,7 @@ final class Parser {
     }
 
     Instruction parseInstruction() {
+        sequence.skipWhitespaces();
         String name = parseChars();
         sequence.expectWhitespace();
         sequence.skipWhitespaces();

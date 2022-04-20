@@ -23,7 +23,10 @@ public class App {
         Printer out = new StreamPrinter(System.out);
         Input in = new StreamInput(System.in);
 
-        JsonTicketsStorage storage = new JsonTicketsStorage();
+        System.out.println(System.getProperty("user.dir"));
+
+        JsonTicketsStorage storage = new JsonTicketsStorage(
+            "res/sample.json");
 
         Interpreter interpreter = new TicketDBInterpreter(in, out, storage);
 
@@ -43,5 +46,3 @@ public class App {
         }
     }
 }
-
-

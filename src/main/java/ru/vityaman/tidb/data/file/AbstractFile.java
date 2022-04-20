@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Basement for files.
  */
-public abstract class AbstractFile {
+public abstract class AbstractFile<T> {
 
     /**
      * File to work with.
@@ -19,4 +19,8 @@ public abstract class AbstractFile {
     public AbstractFile(String path) {
         this.origin = new File(path);
     }
+
+    public abstract void write(T content);
+
+    public abstract T content();
 }

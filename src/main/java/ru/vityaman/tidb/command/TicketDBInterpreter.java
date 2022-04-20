@@ -58,9 +58,6 @@ public final class TicketDBInterpreter implements Interpreter {
                 new RemoveById(storage::collection),
                 "remove", Integer.class));
         simple.load(Command.of(
-                new Open(storage),
-                "open", String.class));
-        simple.load(Command.of(
                 new Clear(storage::collection),
                 "clear"));
         simple.load(Command.of(

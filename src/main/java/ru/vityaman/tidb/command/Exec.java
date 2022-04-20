@@ -1,7 +1,7 @@
 package ru.vityaman.tidb.command;
 
 import ru.vityaman.tidb.command.exception.RecursiveCallException;
-import ru.vityaman.tidb.data.file.TextReadFile;
+import ru.vityaman.tidb.data.file.TextFile;
 import ru.vityaman.tidb.lang.interpreter.Instruction;
 import ru.vityaman.tidb.lang.interpreter.Interpreter;
 import ru.vityaman.tidb.lang.parse.Parse;
@@ -26,7 +26,7 @@ public final class Exec implements Executable {
     @Override
     public void execute(List<Object> args) {
         String filepath = (String) args.get(0);
-        TextReadFile file = new TextReadFile(filepath);
+        TextFile file = new TextFile(filepath);
         String program = file.content();
         for (Instruction instruction : Parse.instructions(program)) {
             if (instruction.name().equals("exec")

@@ -1,4 +1,5 @@
-open "res/sample.json"
+
+
 insert {
     name: "Programming Lecture #1",
     coordinates: {
