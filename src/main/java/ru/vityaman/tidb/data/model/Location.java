@@ -1,6 +1,5 @@
 package ru.vityaman.tidb.data.model;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

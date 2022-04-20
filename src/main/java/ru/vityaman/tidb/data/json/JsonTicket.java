@@ -26,17 +26,18 @@ public class JsonTicket extends JsonResource
 
         try {
             this.name = new Verified<>(new Json<>("name", this.json),
-                    Ticket.RequireValid::name);
+                Ticket.RequireValid::name);
             this.price = new OptionalVerified<>(
-                    new OptionalJson<>("price", this.json),
-                    Ticket.RequireValid::price);
-            this.type = new Convertable<>(new Json<>("type", this.json),
-                    Enum::toString,
-                    TicketType::valueOf);
+                new OptionalJson<>("price", this.json),
+                Ticket.RequireValid::price);
+            this.type = new Convertable<TicketType, String>(
+                new Json<>("type", this.json),
+                Enum::toString,
+                TicketType::valueOf);
             this.coordinates = new JsonCoordinates(new Json<Map<String, Object>>(
-                    "coordinates", this.json).value());
+                "coordinates", this.json).value());
             this.person = new JsonPerson(new Json<Map<String, Object>>(
-                    "person", this.json).value());
+                "person", this.json).value());
         } catch (InvalidValueException
                 | Json.InvalidJsonException
                 | InvalidResourceException e) {

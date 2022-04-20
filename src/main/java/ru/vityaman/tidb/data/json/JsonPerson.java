@@ -1,6 +1,5 @@
 package ru.vityaman.tidb.data.json;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import ru.vityaman.tidb.data.field.Field;

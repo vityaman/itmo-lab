@@ -16,7 +16,7 @@ import java.util.Map;
  * Json Ticket.
  */
 public final class JsonTicketEntry extends JsonTicket
-                                   implements TicketEntry, TicketResource {
+                                   implements TicketResource, TicketEntry {
 
     private final ReadonlyField<Integer> id;
     private final ReadonlyField<Date> creationDate;
