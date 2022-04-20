@@ -44,10 +44,17 @@ public class App {
         Printer out = new StreamPrinter(System.out);
         Input in = new StreamInput(System.in);
 
-        System.out.println(System.getProperty("user.dir"));
+        String filepath = "untitled.jso";
+        try {
+            filepath = System.getProperty("TIDB_FILE", args[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            out.error("No filepath provided");
+            System.exit(0);
+        }
+
 
         JsonTicketsStorage storage
-            = new JsonTicketsStorage("res/sample.json");
+            = new JsonTicketsStorage(filepath);
         Tickets tickets = storage.collection();
 
         LimitedQueue<Instruction> history = new LimitedQueue<>(11);
