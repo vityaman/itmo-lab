@@ -18,9 +18,12 @@ public final class RemoveById implements Executable {
         this.tickets = tickets;
     }
 
+    private void execute(int id) {
+        tickets.removeWithById(id);
+    }
+
     @Override
     public void execute(List<Object> args) {
-        int id = (Integer) args.get(0);
-        tickets.removeWithById(id);
+        execute((Integer) args.get(0));
     }
 }

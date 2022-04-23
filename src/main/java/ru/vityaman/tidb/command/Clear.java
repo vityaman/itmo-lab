@@ -21,12 +21,16 @@ public final class Clear implements Executable {
         this.tickets = tickets;
     }
 
+    public void execute() {
+        tickets.all()
+            .stream()
+            .map(TicketEntry::id)
+            .collect(Collectors.toList())
+            .forEach(tickets::removeWithById);
+    }
+
     @Override
     public void execute(List<Object> args) {
-        tickets.all()
-                .stream()
-                .map(TicketEntry::id)
-                .collect(Collectors.toList())
-                .forEach(tickets::removeWithById);
+        execute();
     }
 }

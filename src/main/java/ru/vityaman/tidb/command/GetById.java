@@ -23,9 +23,13 @@ public final class GetById implements Executable {
         this.tickets = tickets;
     }
 
+    private void execute(int id) {
+        out.println(RED.wrapped(tickets.ticketWithId(id).repr()));
+    }
+
     @Override
     public void execute(List<Object> args) {
-        int id = ((Number) args.get(0)).intValue();
-        out.println(RED.wrapped(tickets.ticketWithId(id).repr()));
+        // TODO: (10.5).intValue()
+        execute(((Number) args.get(0)).intValue());
     }
 }

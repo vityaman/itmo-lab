@@ -20,14 +20,17 @@ public final class RemoveIdLessThan implements Executable {
         this.tickets = tickets;
     }
 
-    @Override
-    public void execute(List<Object> args) {
-        int given = (Integer) args.get(0);
+    private void execute(int id) {
         Tickets tickets = this.tickets;
         tickets.all().stream()
                 .map(TicketEntry::id)
-                .filter((id) -> id < given)
+                .filter((otherId) -> otherId < id)
                 .collect(Collectors.toList())
                 .forEach(tickets::removeWithById);
+    }
+
+    @Override
+    public void execute(List<Object> args) {
+        execute((Integer) args.get(0));
     }
 }

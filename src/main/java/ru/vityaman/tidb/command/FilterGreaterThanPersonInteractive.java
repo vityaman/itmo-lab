@@ -41,8 +41,7 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
         this.tickets = tickets;
     }
 
-    @Override
-    public void execute(List<Object> args) {
+    public void execute() {
         Person person = new RequestPerson().from(in, out);
 
         tickets.all().stream()
@@ -50,5 +49,10 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
                 .forEach((ticket) -> {
             out.println(ticket.repr());
         });
+    }
+
+    @Override
+    public void execute(List<Object> args) {
+
     }
 }

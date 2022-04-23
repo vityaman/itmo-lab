@@ -26,16 +26,19 @@ public final class GroupByCreationDate implements Executable {
         this.tickets = tickets;
     }
 
-    @Override
-    public void execute(List<Object> args) {
-        Map<Date, List<TicketEntry>> ticketsByCreationDate = tickets
-                .all().stream()
-                .collect(Collectors.groupingBy(TicketEntry::creationDate));
-        ticketsByCreationDate.forEach((date, tickets) -> {
+    private void execute() {
+        tickets.all().stream()
+        .collect(Collectors.groupingBy(TicketEntry::creationDate))
+        .forEach((date, tickets) -> {
             out.println(date.toString(), " ", String.valueOf(tickets.size()));
             tickets.forEach((ticket) -> {
                 out.println(ticket.repr());
             });
-        });
+        });;
+    }
+
+    @Override
+    public void execute(List<Object> args) {
+        execute();
     }
 }

@@ -29,11 +29,14 @@ public final class UpdateInteractive implements Executable {
         this.tickets = tickets;
     }
 
-    @Override
-    public void execute(List<Object> args) {
-        int id = (Integer) args.get(0);
+    private void execute(int id) {
         TicketResource resource = tickets.ticketWithId(id);
         Ticket data = new RequestTicket().from(in, out);
         resource.updateUsing(data);
+    }
+
+    @Override
+    public void execute(List<Object> args) {
+        execute((Integer) args.get(0));
     }
 }

@@ -20,8 +20,12 @@ public final class Pwd implements Executable {
         this.out = out;
     }
 
+    private void execute() {
+        out.println(GREEN.wrapped(System.getProperty("user.dir")));
+    }
+
     @Override
     public void execute(List<Object> args) {
-        out.println(GREEN.wrapped(System.getProperty("user.dir")));
+        execute();
     }
 }

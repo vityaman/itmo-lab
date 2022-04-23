@@ -30,8 +30,7 @@ public final class InsertInteractive implements Executable {
         this.tickets = tickets;
     }
 
-    @Override
-    public void execute(List<Object> args) {
+    private void execute() {
         Ticket ticket = new RequestTicket().from(in, out);
         TicketEntry entry = tickets
                 .insertionOf(ticket)
@@ -39,5 +38,10 @@ public final class InsertInteractive implements Executable {
                 .result();
         out.print("New ticket added with id: " + entry.id()
                 + " and creationDate: " + entry.creationDate() + "\n");
+    }
+
+    @Override
+    public void execute(List<Object> args) {
+        execute();
     }
 }

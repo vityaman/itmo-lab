@@ -29,17 +29,21 @@ public final class FilterGreaterThanTypeInteractive implements Executable {
         this.tickets = tickets;
     }
 
+    private void execute() {
+        TicketType type = new RequestPrimitive<>("type: ",
+            TicketType::valueOf,
+            new HashSet<Class<? extends Exception>>() {{
+                add(IllegalArgumentException.class);
+            }}).from(in, out);
+        tickets.all().stream()
+        .filter((ticket) -> ticket.type().compareTo(type) > 0)
+        .forEach((ticket) -> {
+            out.println(ticket.repr());
+        });
+    }
+
     @Override
     public void execute(List<Object> args) {
-        TicketType type = new RequestPrimitive<>("type: ",
-                TicketType::valueOf,
-                new HashSet<Class<? extends Exception>>() {{
-                    add(IllegalArgumentException.class);
-                }}).from(in, out);
-        tickets.all().stream()
-                .filter((ticket) -> ticket.type().compareTo(type) > 0)
-                .forEach((ticket) -> {
-                    out.println(ticket.repr());
-                });
+        execute();
     }
 }

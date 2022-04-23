@@ -18,8 +18,12 @@ public final class Save implements Executable {
         this.storage = storage;
     }
 
+    private void execute() {
+        storage.save();
+    }
+
     @Override
     public void execute(List<Object> args) {
-        storage.save();
+        execute();
     }
 }

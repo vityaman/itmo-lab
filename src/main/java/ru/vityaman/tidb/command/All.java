@@ -25,10 +25,14 @@ public final class All implements Executable {
         this.tickets = tickets;
     }
 
-    @Override
-    public void execute(List<Object> args) {
+    private void execute() {
         for (TicketEntry ticket : tickets.all()) {
             out.println(ticket.repr());
         }
+    }
+
+    @Override
+    public void execute(List<Object> args) {
+        execute();
     }
 }

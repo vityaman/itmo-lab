@@ -27,15 +27,22 @@ public final class InsertArgument implements Executable {
         this.tickets = tickets;
     }
 
+    private void execute(Ticket ticket) {
+        TicketEntry entry = tickets.insertionOf(ticket)
+                                    .execute()
+                                    .result();
+        out.println("New ticket added id: " + entry.id()
+                + ", creationDate: " + entry.creationDate());
+    }
+
     @Override
     public void execute(List<Object> args) {
-        Ticket ticket = new JsonTicket(
-                new HashMap<>((Map<String, Object>) args.get(0)));
-        TicketEntry entry = tickets
-                .insertionOf(ticket)
-                .execute()
-                .result();
-        out.println("New ticket added id: " + entry.id()
-                        + ", creationDate: " + entry.creationDate());
+        execute(
+            new JsonTicket(
+                new HashMap<>(
+                    (Map<String, Object>) args.get(0)
+                )
+            )
+        );
     }
 }

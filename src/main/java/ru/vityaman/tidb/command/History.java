@@ -24,10 +24,15 @@ public final class History implements Executable {
         this.history = history;
     }
 
-    @Override
-    public void execute(List<Object> args) {
+    private void execute() {
         Arrays.stream(history.get()).forEachOrdered((instruction -> {
             out.println("- ", instruction.toString());
         }));
     }
+
+    @Override
+    public void execute(List<Object> args) {
+        execute();
+    }
+
 }
