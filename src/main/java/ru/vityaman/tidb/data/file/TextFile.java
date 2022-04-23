@@ -13,8 +13,6 @@ import ru.vityaman.tidb.data.file.exception.FileAccessException;
 import ru.vityaman.tidb.data.file.exception.NoSuchFileException;
 
 public final class TextFile extends AbstractFile<String> {
-    private static final Iterable<String> Collections = null;
-
     public TextFile(File origin) {
         super(origin);
     }

@@ -8,20 +8,20 @@ import java.util.stream.Collectors;
 import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents 'group_by_creation_date' command.
  */
 public final class GroupByCreationDate implements Executable {
-    private final Printer out;
+    private final Out out;
     private final Tickets tickets;
 
     /**
      * @param out where to print out.
      * @param tickets collection to edit.
      */
-    public GroupByCreationDate(Printer out, Tickets tickets) {
+    public GroupByCreationDate(Out out, Tickets tickets) {
         this.out = out;
         this.tickets = tickets;
     }

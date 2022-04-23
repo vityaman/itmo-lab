@@ -9,20 +9,20 @@ import ru.vityaman.tidb.data.model.Ticket;
 import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents a 'insert' command with argument.
  */
 public final class InsertArgument implements Executable {
-    private final Printer out;
+    private final Out out;
     private final Tickets tickets;
 
     /**
      * @param out where to print out new ticket id and creation date
      * @param tickets collection to edit
      */
-    public InsertArgument(Printer out, Tickets tickets) {
+    public InsertArgument(Out out, Tickets tickets) {
         this.out = out;
         this.tickets = tickets;
     }

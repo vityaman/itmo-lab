@@ -29,7 +29,7 @@ public final class JsonCoordinates extends JsonResource
         } catch (InvalidValueException | JsonField.InvalidJsonException e) {
             throw new InvalidResourceException(
                     "Invalid resource " + json + " as " + e.getMessage(), e);
-    }
+        }
     }
 
     @Override

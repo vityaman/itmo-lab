@@ -1,26 +1,24 @@
 package ru.vityaman.tidb.command;
 
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.RED;
+import static ru.vityaman.tidb.ui.out.ConsoleColor.RED;
 
 import java.util.List;
-import java.util.function.Supplier;
-
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents 'get' command.
  */
 public final class GetById implements Executable {
-    private final Printer out;
+    private final Out out;
     private final Tickets tickets;
 
     /**
      * @param out where to print out
      * @param tickets tickets to edit
      */
-    public GetById(Printer out, Tickets tickets) {
+    public GetById(Out out, Tickets tickets) {
         this.out = out;
         this.tickets = tickets;
     }

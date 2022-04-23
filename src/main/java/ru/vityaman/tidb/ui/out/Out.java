@@ -1,8 +1,8 @@
-package ru.vityaman.tidb.ui.printer;
+package ru.vityaman.tidb.ui.out;
 
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.RED;
+import static ru.vityaman.tidb.ui.out.ConsoleColor.RED;
 
-public interface Printer {
+public interface Out {
     void print(String text);
 
     default void print(String... texts) {

@@ -1,22 +1,22 @@
 package ru.vityaman.tidb.command;
 
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.GREEN;
+import static ru.vityaman.tidb.ui.out.ConsoleColor.GREEN;
 
 import java.util.List;
 
 import ru.vityaman.tidb.lang.interpreter.Executable;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents a 'pwd' command.
  */
 public final class Pwd implements Executable {
-    private final Printer out;
+    private final Out out;
 
     /**
      * @param out where to print out
      */
-    public Pwd(Printer out) {
+    public Pwd(Out out) {
         this.out = out;
     }
 

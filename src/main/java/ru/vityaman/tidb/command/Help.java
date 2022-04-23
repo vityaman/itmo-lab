@@ -1,24 +1,24 @@
 package ru.vityaman.tidb.command;
 
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.BLUE;
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.WHITE;
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.YELLOW;
+import static ru.vityaman.tidb.ui.out.ConsoleColor.BLUE;
+import static ru.vityaman.tidb.ui.out.ConsoleColor.WHITE;
+import static ru.vityaman.tidb.ui.out.ConsoleColor.YELLOW;
 
 import java.util.List;
 
 import ru.vityaman.tidb.lang.interpreter.Executable;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents a 'help' command.
  */
 public final class Help implements Executable {
-    private final Printer out;
+    private final Out out;
 
     /**
      * @param out where to print out
      */
-    public Help(Printer out) {
+    public Help(Out out) {
         this.out = out;
     }
 

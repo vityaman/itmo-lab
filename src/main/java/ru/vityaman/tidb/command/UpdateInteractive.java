@@ -7,7 +7,7 @@ import ru.vityaman.tidb.data.resource.TicketResource;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.input.Input;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 import ru.vityaman.tidb.ui.request.RequestTicket;
 
 /**
@@ -15,7 +15,7 @@ import ru.vityaman.tidb.ui.request.RequestTicket;
  */
 public final class UpdateInteractive implements Executable {
     private final Input in;
-    private final Printer out;
+    private final Out out;
     private final Tickets tickets;
 
     /**
@@ -23,7 +23,7 @@ public final class UpdateInteractive implements Executable {
      * @param out where to print out
      * @param tickets tickets to edit
      */
-    public UpdateInteractive(Input in, Printer out, Tickets tickets) {
+    public UpdateInteractive(Input in, Out out, Tickets tickets) {
         this.in = in;
         this.out = out;
         this.tickets = tickets;

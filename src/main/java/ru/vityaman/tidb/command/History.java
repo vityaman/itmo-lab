@@ -6,20 +6,20 @@ import java.util.function.Supplier;
 
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.lang.interpreter.Instruction;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents a 'history' command.
  */
 public final class History implements Executable {
-    private final Printer out;
+    private final Out out;
     private final Supplier<Instruction[]> history;
 
     /**
      * @param out where to print out.
      * @param history where to get history.
      */
-    public History(Printer out, Supplier<Instruction[]> history) {
+    public History(Out out, Supplier<Instruction[]> history) {
         this.out = out;
         this.history = history;
     }

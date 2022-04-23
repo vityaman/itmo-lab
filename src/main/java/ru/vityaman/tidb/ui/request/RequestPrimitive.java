@@ -1,7 +1,7 @@
 package ru.vityaman.tidb.ui.request;
 
 import ru.vityaman.tidb.ui.input.Input;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -20,7 +20,7 @@ public final class RequestPrimitive<T> implements RequestInput<T> {
         }
 
     @Override
-    public T from(Input in, Printer out) {
+    public T from(Input in, Out out) {
         while (true) {
             try {
                 out.print(prefix);

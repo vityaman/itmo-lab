@@ -1,10 +1,10 @@
-package ru.vityaman.tidb.ui.printer;
+package ru.vityaman.tidb.ui.out;
 
-public final class Prefixed implements Printer {
-    private final Printer origin;
+public final class Prefixed implements Out {
+    private final Out origin;
     private final String prefix;
 
-    public Prefixed(String prefix, Printer origin) {
+    public Prefixed(String prefix, Out origin) {
         this.origin = origin;
         this.prefix = prefix;
     }

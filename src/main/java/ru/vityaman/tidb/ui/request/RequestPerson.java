@@ -1,17 +1,17 @@
 package ru.vityaman.tidb.ui.request;
 
-import ru.vityaman.tidb.data.bean.PersonBean;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+import ru.vityaman.tidb.data.dto.PersonInfo;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.data.model.Person;
 import ru.vityaman.tidb.ui.input.Input;
-import ru.vityaman.tidb.ui.printer.Colored;
-import ru.vityaman.tidb.ui.printer.Prefixed;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Colored;
+import ru.vityaman.tidb.ui.out.Prefixed;
+import ru.vityaman.tidb.ui.out.Out;
+
+import static ru.vityaman.tidb.ui.out.ConsoleColor.*;
 
 import java.util.HashSet;
-
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.*;
 
 public final class RequestPerson implements RequestInput<Person> {
     private static final RequestInput<Integer> HEIGHT_REQUEST
@@ -34,18 +34,18 @@ public final class RequestPerson implements RequestInput<Person> {
             = new RequestLocation();
 
     @Override
-    public Person from(Input in, Printer out) {
-        PersonBean person = new PersonBean();
+    public Person from(Input in, Out out) {
+        PersonInfo.Builder person = PersonInfo.builder();
 
         out.print("person: " + YELLOW.wrapped("{\n"));
 
-        Printer prefixed = new Colored(YELLOW, new Prefixed("    ", out));
-        person.setHeight(HEIGHT_REQUEST.from(in, prefixed));
-        person.setPassportId(PASSPORT_ID_REQUEST.from(in, prefixed));
-        person.setLocation(LOCATION_REQUEST.from(in, prefixed));
+        Out prefixed = new Colored(YELLOW, new Prefixed("    ", out));
+        person.withHeight(HEIGHT_REQUEST.from(in, prefixed))
+              .withPassportId(PASSPORT_ID_REQUEST.from(in, prefixed))
+              .withLocation(LOCATION_REQUEST.from(in, prefixed));
 
         out.print(YELLOW.wrapped("}\n"));
 
-        return person.validated();
+        return person.instance();
     }
 }

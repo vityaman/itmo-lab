@@ -1,11 +1,11 @@
-package ru.vityaman.tidb.ui.printer;
+package ru.vityaman.tidb.ui.out;
 
 import java.io.PrintStream;
 
-public class StreamPrinter implements Printer {
+public class StreamOut implements Out {
     private final PrintStream out;
 
-    public StreamPrinter(PrintStream out) {
+    public StreamOut(PrintStream out) {
         this.out = out;
     }
 

@@ -8,7 +8,7 @@ import ru.vityaman.tidb.data.model.Person;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.input.Input;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Out;
 import ru.vityaman.tidb.ui.request.RequestPerson;
 
 /**
@@ -26,7 +26,7 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
                                             + location.z() * location.z()));
 
     private final Input in;
-    private final Printer out;
+    private final Out out;
     private final Tickets tickets;
 
     /**
@@ -34,7 +34,7 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
      * @param out where to print out
      * @param tickets source collection
      */
-    public FilterGreaterThanPersonInteractive(Input in, Printer out,
+    public FilterGreaterThanPersonInteractive(Input in, Out out,
                                                 Tickets tickets) {
         this.in = in;
         this.out = out;

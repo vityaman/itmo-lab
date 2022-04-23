@@ -1,10 +1,10 @@
-package ru.vityaman.tidb.ui.printer;
+package ru.vityaman.tidb.ui.out;
 
-public final class Colored implements Printer {
-    private final Printer origin;
+public final class Colored implements Out {
+    private final Out origin;
     private final ConsoleColor color;
 
-    public Colored(ConsoleColor color, Printer origin) {
+    public Colored(ConsoleColor color, Out origin) {
         this.origin = origin;
         this.color = color;
     }

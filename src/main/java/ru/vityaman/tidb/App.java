@@ -35,23 +35,22 @@ import ru.vityaman.tidb.lang.parse.ParsingException;
 import ru.vityaman.tidb.ui.input.EndOfInputException;
 import ru.vityaman.tidb.ui.input.Input;
 import ru.vityaman.tidb.ui.input.StreamInput;
-import ru.vityaman.tidb.ui.printer.Printer;
-import ru.vityaman.tidb.ui.printer.StreamPrinter;
+import ru.vityaman.tidb.ui.out.Out;
+import ru.vityaman.tidb.ui.out.StreamOut;
 
 public class App {
 
     public static void main(String[] args) {
-        Printer out = new StreamPrinter(System.out);
+        Out out = new StreamOut(System.out);
         Input in = new StreamInput(System.in);
 
-        String filepath = "untitled.jso";
+        String filepath = "untitled.json";
         try {
-            filepath = System.getProperty("TIDB_FILE", args[0]);
+            filepath = System.getenv("TIDB_FILE");
         } catch (ArrayIndexOutOfBoundsException e) {
             out.error("No filepath provided");
             System.exit(0);
         }
-
 
         JsonTicketsStorage storage
             = new JsonTicketsStorage(filepath);

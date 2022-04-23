@@ -1,16 +1,16 @@
 package ru.vityaman.tidb.ui.request;
 
-import ru.vityaman.tidb.data.bean.TicketBean;
+import ru.vityaman.tidb.data.dto.TicketInfo;
 import ru.vityaman.tidb.data.model.*;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.ui.input.Input;
-import ru.vityaman.tidb.ui.printer.Colored;
-import ru.vityaman.tidb.ui.printer.Prefixed;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Colored;
+import ru.vityaman.tidb.ui.out.Prefixed;
+import ru.vityaman.tidb.ui.out.Out;
+
+import static ru.vityaman.tidb.ui.out.ConsoleColor.PURPLE;
 
 import java.util.HashSet;
-
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.PURPLE;
 
 public final class RequestTicket implements RequestInput<Ticket> {
     private static final RequestInput<String> NAME_REQUEST
@@ -52,21 +52,21 @@ public final class RequestTicket implements RequestInput<Ticket> {
             = new RequestPerson();
 
     @Override
-    public Ticket from(Input in, Printer out) {
-        TicketBean ticket = new TicketBean();
+    public Ticket from(Input in, Out out) {
+        TicketInfo.Builder ticket = TicketInfo.builder();
 
         out.print("ticket: " + PURPLE.wrapped("{\n"));
 
         // TODO: from(in, out) repetition
-        Printer prefixed = new Colored(PURPLE, new Prefixed("    ", out));
-        ticket.setName(NAME_REQUEST.from(in, prefixed));
-        ticket.setCoordinates(COORDINATES_REQUEST.from(in, prefixed));
-        ticket.setPrice(PRICE_REQUEST.from(in, prefixed));
-        ticket.setType(TYPE_REQUEST.from(in, prefixed));
-        ticket.setPerson(PERSON_REQUEST.from(in, prefixed));
+        Out prefixed = new Colored(PURPLE, new Prefixed("    ", out));
+        ticket.withName(NAME_REQUEST.from(in, prefixed))
+              .withCoordinates(COORDINATES_REQUEST.from(in, prefixed))
+              .withPrice(PRICE_REQUEST.from(in, prefixed))
+              .withType(TYPE_REQUEST.from(in, prefixed))
+              .withPerson(PERSON_REQUEST.from(in, prefixed));
 
         out.print(PURPLE.wrapped("}\n"));
 
-        return ticket.validated();
+        return ticket.instance();
     }
 }

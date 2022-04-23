@@ -1,4 +1,4 @@
-package ru.vityaman.tidb.ui.printer;
+package ru.vityaman.tidb.ui.out;
 
 public enum ConsoleColor {
     BLACK("\u001B[30m"),

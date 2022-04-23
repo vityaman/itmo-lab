@@ -1,16 +1,16 @@
 package ru.vityaman.tidb.ui.request;
 
-import ru.vityaman.tidb.data.bean.LocationBean;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+import ru.vityaman.tidb.data.dto.LocationInfo;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.ui.input.Input;
-import ru.vityaman.tidb.ui.printer.Colored;
-import ru.vityaman.tidb.ui.printer.Prefixed;
-import ru.vityaman.tidb.ui.printer.Printer;
+import ru.vityaman.tidb.ui.out.Colored;
+import ru.vityaman.tidb.ui.out.Prefixed;
+import ru.vityaman.tidb.ui.out.Out;
+
+import static ru.vityaman.tidb.ui.out.ConsoleColor.CYAN;
 
 import java.util.HashSet;
-
-import static ru.vityaman.tidb.ui.printer.ConsoleColor.CYAN;
 
 public final class RequestLocation implements RequestInput<Location> {
     private static final RequestInput<Float> X_REQUEST
@@ -49,19 +49,19 @@ public final class RequestLocation implements RequestInput<Location> {
             }});
 
     @Override
-    public Location from(Input in, Printer out) {
-        LocationBean location = new LocationBean();
+    public Location from(Input in, Out out) {
+        LocationInfo.Builder location = LocationInfo.builder();
 
         out.print("location: " + CYAN.wrapped("{\n"));
 
-        Printer prefixed = new Colored(CYAN, new Prefixed("    ", out));
-        location.setX(X_REQUEST.from(in, prefixed));
-        location.setY(Y_REQUEST.from(in, prefixed));
-        location.setZ(Z_REQUEST.from(in, prefixed));
-        location.setName(NAME_REQUEST.from(in, prefixed));
+        Out prefixed = new Colored(CYAN, new Prefixed("    ", out));
+        location.withX(X_REQUEST.from(in, prefixed))
+                .withY(Y_REQUEST.from(in, prefixed))
+                .withZ(Z_REQUEST.from(in, prefixed))
+                .withName(NAME_REQUEST.from(in, prefixed));
 
         out.print(CYAN.wrapped("}\n"));
 
-        return location.validated();
+        return location.instance();
     }
 }
