@@ -1,6 +1,7 @@
 package ru.vityaman.tidb.data.model;
 
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+import ru.vityaman.tidb.ui.out.Out;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Optional;
 /**
  * Valid ticket.
  */
-public interface Ticket extends DataObject {
+public interface Ticket extends JsonObject, Representable {
     /**
      * @return name.
      */
@@ -51,12 +52,16 @@ public interface Ticket extends DataObject {
     }
 
     @Override
-    default String repr() {
-        return String.format(
-                "\"%s\" %s %d$ where: %s, \n \\ owner: %s",
-                name(), type().toString(),
-                price().orElse(0),
-                coordinates().repr(), person().repr());
+    default String representation() {
+        return new StringBuilder()
+            .append("{")
+            .append(String.format(" name: %s,", name()))
+            .append(String.format(" coordinates: %s,", coordinates().representation()))
+            .append((price().isPresent()) ? (" price: " + price().get() + ",") : (""))
+            .append(String.format(" type: %s,", type()))
+            .append(String.format(" person: %s ", person().representation()))
+            .append("}")
+            .toString();
     }
 
     final class RequireValid {

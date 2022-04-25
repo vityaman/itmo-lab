@@ -1,6 +1,7 @@
 package ru.vityaman.tidb.data.model;
 
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+import ru.vityaman.tidb.ui.out.Out;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 /**
  * Valid person.
  */
-public interface Person extends DataObject {
+public interface Person extends JsonObject, Representable {
     /**
      * @return height.
      */
@@ -34,9 +35,14 @@ public interface Person extends DataObject {
     }
 
     @Override
-    default String repr() {
-        return String.format("id: %s, height: %s, pos: %s)",
-                passportId(), height(), location().repr());
+    default String representation() {
+        return new StringBuilder()
+            .append("{")
+            .append(String.format(" height: %s,", height()))
+            .append(String.format(" passportId: %s,", passportId()))
+            .append(String.format(" location: %s ", location().representation()))
+            .append("}")
+            .toString();
     }
 
     final class RequireValid {

@@ -2,6 +2,8 @@ package ru.vityaman.tidb.command;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Supplier;
+
 import ru.vityaman.tidb.data.model.TicketType;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
@@ -15,15 +17,15 @@ import ru.vityaman.tidb.ui.request.RequestPrimitive;
 public final class FilterGreaterThanTypeInteractive implements Executable {
     private final Input in;
     private final Out out;
-    private final Tickets tickets;
+    private final Supplier<Tickets> tickets;
 
     /**
      * @param in where to get input
      * @param out where to print out
      * @param tickets collection to edit
      */
-    public FilterGreaterThanTypeInteractive(Input in, Out out,
-                                            Tickets tickets) {
+    public FilterGreaterThanTypeInteractive(
+        Input in, Out out, Supplier<Tickets> tickets) {
         this.in = in;
         this.out = out;
         this.tickets = tickets;
@@ -35,11 +37,11 @@ public final class FilterGreaterThanTypeInteractive implements Executable {
             new HashSet<Class<? extends Exception>>() {{
                 add(IllegalArgumentException.class);
             }}).from(in, out);
-        tickets.all().stream()
-        .filter((ticket) -> ticket.type().compareTo(type) > 0)
-        .forEach((ticket) -> {
-            out.println(ticket.repr());
-        });
+        tickets.get().all().stream()
+            .filter((ticket) -> ticket.type().compareTo(type) > 0)
+            .forEach((ticket) -> {
+                out.println(ticket.json().toString());
+            });
     }
 
     @Override

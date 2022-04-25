@@ -24,7 +24,7 @@ public final class RequestPrimitive<T> implements RequestInput<T> {
         while (true) {
             try {
                 out.print(prefix);
-                String input = in.readLine();
+                String input = in.readLine().trim();
                 return cast.apply(input);
             } catch (Exception e) {
                 if (catchables.contains(e.getClass())) {

@@ -25,7 +25,7 @@ public final class Exec implements Executable {
     }
 
     public void execute(String scriptpath) {
-        TextFile file = new TextFile(scriptpath);
+        TextFile file = new TextFile(new java.io.File(scriptpath));
         String program = file.content();
         for (Instruction instruction : Parse.instructions(program)) {
             if (instruction.name().equals("exec")

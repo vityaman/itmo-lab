@@ -1,6 +1,7 @@
 package ru.vityaman.tidb.command;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
@@ -9,17 +10,17 @@ import ru.vityaman.tidb.lang.interpreter.Executable;
  * Represents a 'remove' command.
  */
 public final class RemoveById implements Executable {
-    private final Tickets tickets;
+    private final Supplier<Tickets> tickets;
 
     /**
      * @param tickets tickets to edit
      */
-    public RemoveById(Tickets tickets) {
+    public RemoveById(Supplier<Tickets> tickets) {
         this.tickets = tickets;
     }
 
     private void execute(int id) {
-        tickets.removeWithById(id);
+        tickets.get().removeWithById(id);
     }
 
     @Override

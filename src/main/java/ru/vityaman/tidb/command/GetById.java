@@ -3,6 +3,8 @@ package ru.vityaman.tidb.command;
 import static ru.vityaman.tidb.ui.out.ConsoleColor.RED;
 
 import java.util.List;
+import java.util.function.Supplier;
+
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
@@ -12,19 +14,23 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class GetById implements Executable {
     private final Out out;
-    private final Tickets tickets;
+    private final Supplier<Tickets> tickets;
 
     /**
      * @param out where to print out
      * @param tickets tickets to edit
      */
-    public GetById(Out out, Tickets tickets) {
+    public GetById(Out out, Supplier<Tickets> tickets) {
         this.out = out;
         this.tickets = tickets;
     }
 
     private void execute(int id) {
-        out.println(RED.wrapped(tickets.ticketWithId(id).repr()));
+        out.println(
+            tickets.get()
+                .ticketWithId(id)
+                .representation()
+        );
     }
 
     @Override

@@ -1,14 +1,13 @@
 package ru.vityaman.tidb.data.model;
 
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Valid coordinates.
  */
-public interface Coordinates extends DataObject {
+public interface Coordinates extends JsonObject, Representable {
     /**
      * @return x
      */
@@ -28,8 +27,13 @@ public interface Coordinates extends DataObject {
     }
 
     @Override
-    default String repr() {
-        return String.format("(%.2f, %.2f)", x(), y());
+    default String representation() {
+        return new StringBuilder()
+            .append("{")
+            .append(String.format(" x: %s,", x()))
+            .append(String.format(" y: %s ", y()))
+            .append("}")
+            .toString();
     }
 
     final class RequireValid {

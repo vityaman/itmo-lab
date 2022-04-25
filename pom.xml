@@ -21,7 +21,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>ru.vityaman.tidb.App</mainClass>
+              <mainClass>ru.vityaman.tidb.Tidb</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

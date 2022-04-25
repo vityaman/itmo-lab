@@ -1,9 +1,8 @@
 package ru.vityaman.tidb.data.model;
 
-import ru.vityaman.tidb.data.json.StringDate;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
-
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -21,11 +20,26 @@ public interface TicketEntry extends Ticket {
     Date creationDate();
 
     @Override
-    default String repr() {
-        return String.format(
-                "| <%s> %d: %s",
-                new StringDate(creationDate()).asString(),
-                id(), Ticket.super.repr());
+    default Map<String, Object> json() {
+        Map<String, Object> json = Ticket.super.json();
+        json.put("id", id());
+        json.put("creationDate", creationDate());
+        return json;
+    }
+
+    @Override
+    default String representation() {
+        return new StringBuilder()
+            .append("{")
+            .append(String.format(" id: %s,", id()))
+            .append(String.format(" created: %s,", creationDate()))
+            .append(String.format(" name: %s,", name()))
+            .append(String.format(" coordinates: %s,", coordinates().representation()))
+            .append((price().isPresent()) ? (" price: " + price().get() + ",") : (""))
+            .append(String.format(" type: %s,", type()))
+            .append(String.format(" person: %s ", person().representation()))
+            .append("}")
+            .toString();
     }
 
     final class RequireValid {

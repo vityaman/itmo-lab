@@ -10,7 +10,8 @@ public final class Prefixed implements Out {
     }
 
     @Override
-    public void print(String text) {
+    public Out print(String text) {
         origin.print(prefix + text);
+        return this;
     }
 }

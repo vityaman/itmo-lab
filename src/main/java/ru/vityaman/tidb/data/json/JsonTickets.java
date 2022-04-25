@@ -28,10 +28,7 @@ public final class JsonTickets extends JsonResource
     }
 
     public JsonTickets(Clock clock) {
-        this(new HashMap<String, Object>() {{
-            put("nextId", 1);
-            put("list", new ArrayList<>());
-        }}, clock);
+        this(defaultJson(), clock);
     }
 
     public JsonTickets(Map<String, Object> json) {
@@ -157,5 +154,12 @@ public final class JsonTickets extends JsonResource
 
     public Map<String, Object> json() {
         return new HashMap<>(json);
+    }
+
+    public static Map<String, Object> defaultJson() {
+        return new HashMap<String, Object>() {{
+            put("nextId", 1);
+            put("list", new ArrayList<>());
+        }};
     }
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Valid location.
  */
-public interface Location extends DataObject {
+public interface Location extends JsonObject, Representable {
     /**
      * @return x
      */
@@ -39,8 +39,15 @@ public interface Location extends DataObject {
     }
 
     @Override
-    default String repr() {
-        return String.format("%s (%.2f, %.2f, %.2f)", name(), x(), y(), z());
+    default String representation() {
+        return new StringBuilder()
+            .append("{")
+            .append(String.format(" name: %s,", name()))
+            .append(String.format(" x: %s,", x()))
+            .append(String.format(" y: %s,", y()))
+            .append(String.format(" z: %s ", z()))
+            .append("}")
+            .toString();
     }
 
     final class RequireValid {

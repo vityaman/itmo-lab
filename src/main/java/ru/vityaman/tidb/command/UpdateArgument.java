@@ -2,6 +2,7 @@ package ru.vityaman.tidb.command;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import ru.vityaman.tidb.data.json.JsonTicket;
 import ru.vityaman.tidb.data.model.Ticket;
@@ -12,17 +13,17 @@ import ru.vityaman.tidb.lang.interpreter.Executable;
  * Represents 'update' command with argument.
  */
 public final class UpdateArgument implements Executable {
-    private final Tickets tickets;
+    private final Supplier<Tickets> tickets;
 
     /**
      * @param tickets collection to edit
      */
-    public UpdateArgument(Tickets tickets) {
+    public UpdateArgument(Supplier<Tickets> tickets) {
         this.tickets = tickets;
     }
 
     private void execute(int id, Ticket ticket) {
-        tickets.ticketWithId(id).updateUsing(ticket);
+        tickets.get().ticketWithId(id).updateUsing(ticket);
     }
 
     @Override

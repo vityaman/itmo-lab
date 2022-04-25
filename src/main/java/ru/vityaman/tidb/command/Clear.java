@@ -1,6 +1,7 @@
 package ru.vityaman.tidb.command;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import ru.vityaman.tidb.data.model.TicketEntry;
@@ -12,16 +13,17 @@ import ru.vityaman.tidb.lang.interpreter.Executable;
  * delete all tickets from the collection.
  */
 public final class Clear implements Executable {
-    private final Tickets tickets;
+    private final Supplier<Tickets> tickets;
 
     /**
      * @param tickets source of collection
      */
-    public Clear(Tickets tickets) {
+    public Clear(Supplier<Tickets> tickets) {
         this.tickets = tickets;
     }
 
     public void execute() {
+        Tickets tickets = this.tickets.get();
         tickets.all()
             .stream()
             .map(TicketEntry::id)

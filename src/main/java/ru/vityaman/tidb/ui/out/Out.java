@@ -3,26 +3,35 @@ package ru.vityaman.tidb.ui.out;
 import static ru.vityaman.tidb.ui.out.ConsoleColor.RED;
 
 public interface Out {
-    void print(String text);
+    Out print(String text);
 
-    default void print(String... texts) {
+    default Out print(String... texts) {
         for (String text : texts) {
             print(text);
         }
+        return this;
     }
 
-    default void println(String text) {
-        print(text + '\n');
+    default Out println(String text) {
+        return print(text + '\n');
     }
 
-    default void println(String... texts) {
+    default Out println(String... texts) {
         for (String text : texts) {
             print(text);
         }
-        print("\n");
+        return print("\n");
     }
 
-    default void error(String text) {
-        println(RED.wrapped(text));
+    default Out error(String text) {
+        return println(RED.wrapped(text));
+    }
+
+    default Out prefixed(String prefix) {
+        return new Prefixed(prefix, this);
+    }
+
+    default Out colored(ConsoleColor color) {
+        return new Colored(color, this);
     }
 }

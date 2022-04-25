@@ -10,7 +10,8 @@ public class StreamOut implements Out {
     }
 
     @Override
-    public void print(String text) {
+    public Out print(String text) {
         out.print(text);
+        return this;
     }
 }

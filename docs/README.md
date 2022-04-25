@@ -106,15 +106,15 @@ enum TicketType {
 - **filter_greater_than_type type** : вывести элементы, значение поля type которых больше заданного
 
 ## Example
-Example, 10, 12, 12, VIP, 170, jfbsjdfsf, Home, 213, 12321, 2 
+Example, 10, 12, 12, VIP, 170, jfbsjdfsf, Home, 213, 12321, 2
 insert (12, {
     name: "Example",
     coordinates: { x: 10, y: 12 },
     price: 12,
     type: "VIP",
-    person: { 
-        height: 170, 
-        passportID: "asdandskdsaasdajs", 
+    person: {
+        height: 170,
+        passportID: "asdandskdsaasdajs",
         location: { name: "Home",
             x: 213, y: 12321, "z": 2
         }
@@ -135,8 +135,8 @@ program
     instructions
 
 instructions
-    instruction 
-    instruction instructions
+    instruction
+    instruction ws instructions
 
 instruction
     chars ws

@@ -1,19 +1,29 @@
 package ru.vityaman.tidb.data.json;
 
+import java.util.Map;
+
+import ru.vityaman.tidb.data.file.CreateOnWriteFile;
+import ru.vityaman.tidb.data.file.File;
 import ru.vityaman.tidb.data.file.JsonFile;
+import ru.vityaman.tidb.data.file.JsonTicketsFile;
+import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.data.resource.TicketsStorage;
-import ru.vityaman.tidb.data.resource.exception.SaveInabilityException;
 
 /**
  * Storage of tickets.
  */
 public final class JsonTicketsStorage implements TicketsStorage {
-    private JsonFile file;
+    private File<JsonTickets> file;
     private JsonTickets tickets;
 
-    public JsonTicketsStorage(String filepath) {
-        file = new JsonFile(filepath);
-        tickets = new JsonTickets(file.content());
+    public JsonTicketsStorage(java.io.File file) {
+        open(file);
+    }
+
+    @Override
+    public void open(java.io.File file) {
+        this.file = new JsonTicketsFile(file);
+        tickets = this.file.content();
     }
 
     @Override
@@ -21,12 +31,17 @@ public final class JsonTicketsStorage implements TicketsStorage {
         return tickets;
     }
 
-    /**
-     * Saves or throws SaveInabilityException if no fil provided.
-     * @see SaveInabilityException
-     */
     @Override
     public void save() {
-        file.write(tickets.json);
+        file.write(tickets);
+    }
+
+    @Override
+    public void save(java.io.File file) {
+        new JsonTicketsFile(file).write(tickets);
+    }
+
+    public boolean isFileExist() {
+        return file.origin().exists();
     }
 }

@@ -1,5 +1,3 @@
-
-
 insert {
     name: "Programming Lecture #1",
     coordinates: {
@@ -15,6 +13,7 @@ insert {
         }
     }
 }
+
 insert {
     name: "Music Festival",
     coordinates: {
@@ -30,6 +29,7 @@ insert {
         }
     }
 }
+
 insert {
     name: "Test ticket aa",
     coordinates: {
