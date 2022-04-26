@@ -1,0 +1,47 @@
+insert {
+    name: "Programming Lecture #1",
+    coordinates: {
+        x: 10, y: 12
+    },
+    type: "VIP",
+    person: {
+        height: 170,
+        passportId: "itmo1337812763",
+        location: {
+            x: 10, y: 12, z: 7,
+            name: "SPb"
+        }
+    }
+}
+
+insert {
+    name: "Arslan performance",
+    coordinates: {
+        x: 1, y: 1
+    },
+    type: "USUAL",
+    person: {
+        height: 100,
+        passportId: "jajasjasjas",
+        location: {
+            x: 110, y: 23, z: 3,
+            name: "Home"
+        }
+    }
+}
+
+insert {
+    name: "Concert",
+    coordinates: {
+        x: 200, y: 100
+    },
+    type: "CHEAP",
+    person: {
+        height: 180,
+        passportId: "passportpassport",
+        location: {
+            x: 12, y: 12, z: 12,
+            name: "POP"
+        }
+    }
+}

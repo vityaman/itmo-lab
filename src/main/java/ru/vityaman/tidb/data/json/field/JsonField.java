@@ -2,8 +2,6 @@ package ru.vityaman.tidb.data.json.field;
 
 import java.util.Map;
 
-import ru.vityaman.tidb.data.field.Field;
-
 /**
  * Wrapper of java.util.Map to
  * convenient access to its members.
@@ -13,7 +11,7 @@ public class JsonField<T> implements Field<T> {
     protected final String name;
     protected final Map<String, Object> container;
 
-    public JsonField(String name, Map<String, Object> container) {
+    public JsonField(Map<String, Object> container, String name) {
         this.name = name;
         this.container = container;
     }
@@ -25,17 +23,17 @@ public class JsonField<T> implements Field<T> {
 
     @Override
     public T value() throws InvalidJsonException {
+        if (!container.containsKey(name)) {
+            throw new InvalidJsonException(String.format(
+                "Json does not contain field %s", name));
+        }
+
+        Object value = container.get(name);
         try {
-            return (T) container.computeIfAbsent(name, (k) -> {
-                throw new InvalidJsonException(
-                    "Json does not contain field " + name);
-            });
+            return (T) value;
         } catch (ClassCastException e) {
             throw new InvalidJsonException(
                 "Field " + name + " has incompatible type", e);
-        } catch (UnsupportedOperationException e) {
-            throw new IllegalStateException(
-                "Map container must be mutable", e);
         }
     }
 

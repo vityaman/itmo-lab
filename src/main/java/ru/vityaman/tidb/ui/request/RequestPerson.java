@@ -1,7 +1,7 @@
 package ru.vityaman.tidb.ui.request;
 
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
-import ru.vityaman.tidb.data.dto.PersonInfo;
+import ru.vityaman.tidb.data.dto.PersonData;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.data.model.Person;
 import ru.vityaman.tidb.ui.input.Input;
@@ -38,7 +38,7 @@ public final class RequestPerson implements RequestInput<Person> {
 
     @Override
     public Person from(Input in, Out out) {
-        PersonInfo.Builder person = PersonInfo.builder();
+        PersonData.Builder person = PersonData.builder();
 
         out.print("person: " + YELLOW.wrapped("{\n"));
 

@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import static ru.vityaman.tidb.lang.parse.CharTest.equalTo;
 
 /**
- * 
+ *
  */
 public final class ParsingSequence {
     private static final char DEFAULT_END = 0;

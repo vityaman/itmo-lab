@@ -1,43 +1,20 @@
 package ru.vityaman.tidb.data.model;
 
-import ru.vityaman.tidb.data.model.exception.InvalidValueException;
-import ru.vityaman.tidb.ui.out.Out;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-/**
- * Valid ticket.
- */
-public interface Ticket extends JsonObject, Representable {
-    /**
-     * @return name.
-     */
+import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+
+
+public interface Ticket {
     String name();
-
-    /**
-     * @return coordinates.
-     */
     Coordinates coordinates();
-
-    /**
-     * @return price.
-     */
     Optional<Integer> price();
-
-    /**
-     * @return type.
-     */
     TicketType type();
-
-    /**
-     * @return person.
-     */
     Person person();
 
-    @Override
     default Map<String, Object> json() {
         HashMap<String, Object> json = new HashMap<String, Object>() {{
                 put("name", name());
@@ -51,7 +28,6 @@ public interface Ticket extends JsonObject, Representable {
         return json;
     }
 
-    @Override
     default String representation() {
         return new StringBuilder()
             .append("{")
@@ -68,11 +44,11 @@ public interface Ticket extends JsonObject, Representable {
         public static String name(String name) {
             if (name == null) {
                 throw new InvalidValueException(
-                        "Ticket.name must be present");
+                    "Ticket.name must be present");
             }
             if (name.isEmpty()) {
                 throw new InvalidValueException(
-                        "Ticket.name must be non empty");
+                    "Ticket.name must be non empty");
             }
             return name;
         }
@@ -80,7 +56,7 @@ public interface Ticket extends JsonObject, Representable {
         public static int price(int price) {
             if (price <= 0) {
                 throw new InvalidValueException(
-                    "Ticket.price must be positive");
+                "Ticket.price must be positive");
             }
             return price;
         }

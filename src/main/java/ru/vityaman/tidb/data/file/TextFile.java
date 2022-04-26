@@ -1,52 +1,69 @@
 package ru.vityaman.tidb.data.file;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Path;
 
-import ru.vityaman.tidb.data.file.exception.FileAccessException;
-import ru.vityaman.tidb.data.file.exception.NoSuchFileException;
+import ru.vityaman.tidb.data.file.exception.FileSystemException;
+import ru.vityaman.tidb.data.file.exception.InvalidFileContentException;
+import ru.vityaman.tidb.data.file.exception.UncheckedFileSystemException;
+
 
 public final class TextFile extends AbstractFile<String> {
-    public TextFile(java.io.File file) {
+    private static final long DEFAULT_CHAR_LIMIT = 10000L;
+
+    private final long charLimit;
+
+    public TextFile(Path file, long charLimit) {
         super(file);
+        this.charLimit = charLimit;
+    }
+
+    public TextFile(Path file) {
+        this(file, defaultCharLimit());
     }
 
     @Override
-    public void write(String content) {
+    public void write(String content) throws FileSystemException {
         try (BufferedOutputStream file =
                 new BufferedOutputStream(
-                    new FileOutputStream(origin()))
+                    new FileOutputStream(
+                        path().toFile()))
         ) {
             file.write(content.getBytes());
-        } catch (FileNotFoundException e) {
-            throw new NoSuchFileException(String.format(
-                "File %s does not exist", origin().getName()),e);
         } catch (IOException e) {
-            throw new FileAccessException(
-                    "Can't write file as " + e.getMessage(), e);
+            throw new FileSystemException(
+                String.format(
+                    "Can't write file as %s",
+                    e.getMessage()
+                ),
+                e
+            );
         }
     }
 
     @Override
-    public String content() {
+    public String content() throws FileSystemException,
+                                   InvalidFileContentException {
         StringBuilder result = new StringBuilder();
-        try (BufferedReader file = new BufferedReader(
-                new InputStreamReader(
-                    new FileInputStream(origin())))
-        ) {
-            String line;
-            while ((line = file.readLine()) != null) {
-                result.append(line + '\n');
+        try (FileLines lines = new FileLines(path())) {
+            for (String line : lines) {
+            result.append(line + '\n');
+            if (charLimit < result.length()) {
+                throw new InvalidFileContentException(String.format(
+                    "File size limit (%s) exceeded: found more than %s",
+                    charLimit, result.length()
+                ));
             }
-        } catch (IOException e) {
-            throw new FileAccessException(
-                    "Can't open file: " + e.getMessage(), e);
+        }
+        } catch (UncheckedFileSystemException e) {
+            throw new FileSystemException(e.getMessage(), e);
         }
         return result.toString();
+    }
+
+    public static long defaultCharLimit() {
+        return DEFAULT_CHAR_LIMIT;
     }
 }

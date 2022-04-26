@@ -7,11 +7,18 @@ import ru.vityaman.tidb.data.model.Location;
 /**
  * Location Bean.
  */
-public final class LocationInfo implements Location {
+public final class LocationData implements Location {
     private final float x;
     private final double y;
     private final float z;
     private final String name;
+
+    public LocationData(Location other) {
+        x = other.x();
+        y = other.y();
+        z = other.z();
+        name = other.name();
+    }
 
     public float x() {
         return x;
@@ -61,12 +68,12 @@ public final class LocationInfo implements Location {
             return this;
         }
 
-        public LocationInfo instance() {
-            return new LocationInfo(this);
+        public LocationData instance() {
+            return new LocationData(this);
         }
     }
 
-    private LocationInfo(Builder builder) {
+    private LocationData(Builder builder) {
         x = Objects.requireNonNull(builder.x);
         y = Objects.requireNonNull(builder.y);
         z = Objects.requireNonNull(builder.z);

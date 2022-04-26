@@ -1,9 +1,11 @@
 package ru.vityaman.tidb.lang.interpreter;
 
-import ru.vityaman.tidb.command.exception.NoSuchCommandException;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import ru.vityaman.tidb.lang.interpreter.exception.ExecutionException;
+import ru.vityaman.tidb.lang.interpreter.exception.InterpreterException;
+import ru.vityaman.tidb.lang.interpreter.exception.NoSuchInstructionException;
 
 public class SimpleInterpreter implements Interpreter {
     private final Map<String, Map<Signature, Executable>> commandBySignatureByKeyword;
@@ -16,23 +18,25 @@ public class SimpleInterpreter implements Interpreter {
     }
 
     @Override
-    public void execute(Instruction instruction) {
+    public void execute(Instruction instruction) throws InterpreterException,
+                                                        ExecutionException {
         commandBySignature(instruction.signature())
                 .execute(instruction.arguments());
     }
 
-    private Executable commandBySignature(Signature signature) {
+    private Executable commandBySignature(Signature signature)
+                                                    throws InterpreterException {
         Map<Signature, Executable> commands
                 = commandBySignatureByKeyword.get(signature.name());
         if (commands == null) {
-            throw new NoSuchCommandException(signature.name());
+            throw new NoSuchInstructionException(signature.name());
         }
         for (Signature original : commands.keySet()) {
             if (signature.fitsTo(original)) {
                 return commands.get(original);
             }
         }
-        throw new NoSuchCommandException(signature.toString());
+        throw new NoSuchInstructionException(signature.toString());
     }
 
     public void load(Command command) {

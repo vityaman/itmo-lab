@@ -1,14 +1,16 @@
 package ru.vityaman.tidb.data.file;
 
-public abstract class AbstractFile<T> implements File<T> {
-    private final java.io.File origin;
+import java.nio.file.Path;
 
-    public AbstractFile(java.io.File origin) {
-        this.origin = origin;
+public abstract class AbstractFile<T> implements File<T> {
+    private final Path path;
+
+    public AbstractFile(Path path) {
+        this.path = path;
     }
 
     @Override
-    public final java.io.File origin() {
-        return origin;
+    public final Path path() {
+        return path;
     }
 }

@@ -1,7 +1,7 @@
 package ru.vityaman.tidb.ui.request;
 
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
-import ru.vityaman.tidb.data.dto.LocationInfo;
+import ru.vityaman.tidb.data.dto.LocationData;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.ui.input.Input;
 import ru.vityaman.tidb.ui.out.Colored;
@@ -53,7 +53,7 @@ public final class RequestLocation implements RequestInput<Location> {
 
     @Override
     public Location from(Input in, Out out) {
-        LocationInfo.Builder location = LocationInfo.builder();
+        LocationData.Builder location = LocationData.builder();
 
         out.print("location: " + CYAN.wrapped("{\n"));
 

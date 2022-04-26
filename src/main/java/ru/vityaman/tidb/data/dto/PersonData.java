@@ -8,10 +8,16 @@ import ru.vityaman.tidb.data.model.Person;
 /**
  * Person Bean.
  */
-public final class PersonInfo implements Person {
+public final class PersonData implements Person {
     private final int height;
     private final String passportId;
     private final Location location;
+
+    public PersonData(Person other) {
+        height = other.height();
+        passportId = other.passportId();
+        location = new LocationData(other.location());
+    }
 
     public int height() {
         return height;
@@ -51,12 +57,12 @@ public final class PersonInfo implements Person {
             return this;
         }
 
-        public PersonInfo instance() {
-            return new PersonInfo(this);
+        public PersonData instance() {
+            return new PersonData(this);
         }
     }
 
-    private PersonInfo(Builder builder) {
+    private PersonData(Builder builder) {
         height = Objects.requireNonNull(builder.height);
         passportId = Objects.requireNonNull(builder.passportId);
         location = Objects.requireNonNull(builder.location);

@@ -1,8 +1,8 @@
 package ru.vityaman.tidb.command;
 
 import java.util.List;
-import java.util.function.Supplier;
 
+import ru.vityaman.tidb.data.resource.TicketResource;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
@@ -13,21 +13,21 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class All implements Executable {
     private final Out out;
-    private final Supplier<Tickets> tickets;
+    private final Tickets tickets;
 
     /**
      * @param out where to print.
      * @param tickets source of collection.
      */
-    public All(Out out, Supplier<Tickets> tickets) {
+    public All(Out out, Tickets tickets) {
         this.out = out;
         this.tickets = tickets;
     }
 
     private void execute() {
-        tickets.get().all().forEach((ticket) -> {
-            out.println(ticket.representation());
-        });
+        for (TicketResource ticket : tickets.all()) {
+            out.println(ticket);
+        }
     }
 
     @Override

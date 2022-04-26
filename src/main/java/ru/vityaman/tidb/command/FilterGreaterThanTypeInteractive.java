@@ -2,22 +2,30 @@ package ru.vityaman.tidb.command;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Supplier;
 
 import ru.vityaman.tidb.data.model.TicketType;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.input.Input;
 import ru.vityaman.tidb.ui.out.Out;
+import ru.vityaman.tidb.ui.request.RequestInput;
 import ru.vityaman.tidb.ui.request.RequestPrimitive;
 
 /**
  * Represents a 'filter_greater_than_type'.
  */
 public final class FilterGreaterThanTypeInteractive implements Executable {
+    private final RequestInput<TicketType> REQUEST_TYPE
+        = new RequestPrimitive<>("type: ",
+            TicketType::valueOf,
+            new HashSet<Class<? extends Exception>>() {{
+                add(IllegalArgumentException.class);
+            }}
+        );
+
     private final Input in;
     private final Out out;
-    private final Supplier<Tickets> tickets;
+    private final Tickets tickets;
 
     /**
      * @param in where to get input
@@ -25,23 +33,17 @@ public final class FilterGreaterThanTypeInteractive implements Executable {
      * @param tickets collection to edit
      */
     public FilterGreaterThanTypeInteractive(
-        Input in, Out out, Supplier<Tickets> tickets) {
+        Input in, Out out, Tickets tickets) {
         this.in = in;
         this.out = out;
         this.tickets = tickets;
     }
 
     private void execute() {
-        TicketType type = new RequestPrimitive<>("type: ",
-            TicketType::valueOf,
-            new HashSet<Class<? extends Exception>>() {{
-                add(IllegalArgumentException.class);
-            }}).from(in, out);
-        tickets.get().all().stream()
+        TicketType type = REQUEST_TYPE.from(in, out);
+        tickets.all().stream()
             .filter((ticket) -> ticket.type().compareTo(type) > 0)
-            .forEach((ticket) -> {
-                out.println(ticket.json().toString());
-            });
+            .forEach(out::println);
     }
 
     @Override

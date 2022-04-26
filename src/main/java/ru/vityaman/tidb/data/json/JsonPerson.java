@@ -2,31 +2,44 @@ package ru.vityaman.tidb.data.json;
 
 import java.util.Map;
 
-import ru.vityaman.tidb.data.field.Field;
-import ru.vityaman.tidb.data.model.Person;
 import ru.vityaman.tidb.data.resource.PersonResource;
-import ru.vityaman.tidb.data.field.Verified;
+import ru.vityaman.tidb.data.resource.exception.InvalidResourceException;
+import ru.vityaman.tidb.data.json.exception.InvalidJsonResourceException;
+import ru.vityaman.tidb.data.json.field.Field;
 import ru.vityaman.tidb.data.json.field.JsonField;
+import ru.vityaman.tidb.data.json.field.Verified;
+import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 
 /**
  * Json Person.
  */
 public final class JsonPerson extends JsonResource
-                              implements PersonResource, Person {
+                              implements PersonResource {
 
     private final Field<Integer> height;
     private final Field<String> passportId;
     private final JsonLocation location;
 
-    public JsonPerson(Map<String, Object> json) {
+    public JsonPerson(Map<String, Object> json) throws InvalidResourceException {
         super(json);
-
-        this.height = new Verified<>(new JsonField<>("height", this.json),
-                RequireValid::height);
-        this.passportId = new Verified<>(new JsonField<>("passportId", this.json),
-                RequireValid::passportId);
-        this.location = new JsonLocation(new JsonField<Map<String, Object>>(
-            "location", this.json).value());
+        try {
+            this.height = new Verified<>(
+                new JsonField<>(this.json, "height"),
+                RequireValid::height
+            );
+            this.passportId = new Verified<>(
+                new JsonField<>(this.json, "passportId"),
+                RequireValid::passportId
+            );
+            this.location = new JsonLocation(
+                new JsonField<Map<String, Object>>(this.json,
+                "location").value()
+            );
+        } catch (InvalidJsonResourceException
+                | InvalidValueException
+                | JsonField.InvalidJsonException e) {
+                throw new InvalidJsonResourceException(json, e);
+        }
     }
 
     @Override

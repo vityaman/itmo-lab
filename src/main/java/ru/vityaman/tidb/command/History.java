@@ -26,7 +26,7 @@ public final class History implements Executable {
 
     private void execute() {
         Arrays.stream(history.get()).forEachOrdered((instruction -> {
-            out.println("- ", instruction.toString());
+            out.println("- " + instruction);
         }));
     }
 

@@ -13,36 +13,24 @@ public interface Out {
     void print(String text);
 
     /**
-     * Prints arguments without separator.
-     * @param texts
-     */
-    default void print(String... texts) {
-        for (String text : texts) {
-            print(text);
-        }
-    }
-
-    /**
      * Prints text and new line.
-     * @param text text to print
+     * @param object text to print
      * @see print
      */
-    default void println(String text) {
-        print(text + '\n');
-    }
-
-    default void println(String... texts) {
-        for (String text : texts) {
-            print(text);
-        }
-        print("\n");
+    default void println(Object object) {
+        print(object.toString() + '\n');
     }
 
     /**
      * Prints red text.
-     * @param text
+     * @param object
      */
-    default void error(String text) {
-        println(RED.wrapped(text));
+
+    default void error(String message) {
+        println(RED.wrapped(message));
+    }
+
+    default void error(Exception exception) {
+        error(exception.getMessage());
     }
 }

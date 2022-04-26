@@ -1,4 +1,4 @@
-package ru.vityaman.tidb.data.field;
+package ru.vityaman.tidb.data.json.field;
 
 import java.util.function.Function;
 

@@ -11,38 +11,46 @@ import java.util.Optional;
 /**
  * Ticket Bean.
  */
-public final class TicketInfo implements Ticket {
+public class TicketData implements Ticket {
      private final String name;
      private final Coordinates coordinates;
      private final Integer price;
      private final TicketType type;
      private final Person person;
 
-     public String name() {
+     public TicketData(Ticket other) {
+          name = other.name();
+          coordinates = new CoordinatesData(other.coordinates());
+          price = other.price().orElse(null);
+          type = other.type();
+          person = new PersonData(other.person());
+     }
+
+     public final String name() {
           return name;
      }
 
-     public Coordinates coordinates() {
+     public final Coordinates coordinates() {
           return coordinates;
      }
 
-     public Optional<Integer> price() {
+     public final Optional<Integer> price() {
           return Optional.ofNullable(price);
      }
 
-     public TicketType type() {
+     public final TicketType type() {
           return type;
      }
 
-     public Person person() {
+     public final Person person() {
           return person;
      }
 
      public static Builder builder() {
           return new Builder();
-      }
+     }
 
-     public static final class Builder {
+     public static class Builder {
           private String name;
           private Coordinates coordinates;
           private Integer price;
@@ -78,12 +86,12 @@ public final class TicketInfo implements Ticket {
                return this;
           }
 
-          public TicketInfo instance() {
-               return new TicketInfo(this);
+          public TicketData instance() {
+               return new TicketData(this);
           }
      }
 
-     private TicketInfo(Builder builder) {
+     private TicketData(Builder builder) {
           name = Objects.requireNonNull(builder.name);
           coordinates = Objects.requireNonNull(builder.coordinates);
           price = builder.price;

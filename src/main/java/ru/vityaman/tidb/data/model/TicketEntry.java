@@ -1,6 +1,7 @@
 package ru.vityaman.tidb.data.model;
 
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -9,14 +10,7 @@ import java.util.Objects;
  * Valid ticket entry.
  */
 public interface TicketEntry extends Ticket {
-    /**
-     * @return id.
-     */
     int id();
-
-    /**
-     * @return creationDate.
-     */
     Date creationDate();
 
     @Override

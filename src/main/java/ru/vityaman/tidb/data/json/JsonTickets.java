@@ -3,7 +3,8 @@ package ru.vityaman.tidb.data.json;
 import java.util.*;
 import java.time.Clock;
 
-import ru.vityaman.tidb.data.field.Field;
+import ru.vityaman.tidb.data.json.exception.InvalidJsonResourceException;
+import ru.vityaman.tidb.data.json.field.Field;
 import ru.vityaman.tidb.data.json.field.JsonField;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Ticket;
@@ -24,49 +25,45 @@ public final class JsonTickets extends JsonResource
     private final List<Map<String, Object>> list;
     private final Map<Integer, Map<String, Object>> ticketById;
 
-    public JsonTickets() {
-        this(Clock.systemUTC());
-    }
-
-    public JsonTickets(Clock clock) {
-        this(defaultJson(), clock);
-    }
-
-    public JsonTickets(Map<String, Object> json) {
+    public JsonTickets(Map<String, Object> json)
+                                            throws InvalidJsonResourceException,
+                                                   InvalidResourceException {
         this(json, Clock.systemUTC());
     }
 
-    public JsonTickets(Map<String, Object> json, Clock clock) {
+    public JsonTickets(Map<String, Object> json, Clock clock)
+                                                throws InvalidJsonResourceException,
+                                                       InvalidResourceException {
         super(json);
         this.clock = clock;
-
         try {
-            this.nextId = new JsonField<>("nextId", this.json);
+            this.nextId = new JsonField<>(this.json, "nextId");
             this.list = new JsonField<List<Map<String, Object>>>(
-                    "list", this.json).value();
+                this.json, "list"
+            ).value();
 
             this.ticketById = new HashMap<>(list.size());
             for (Map<String, Object> ticket : list) {
                 TicketEntry entry = new JsonTicketEntry(ticket);
                 if (ticketById.containsKey(entry.id())) {
-                    throw new InvalidResourceException(
-                        "Duplicate key " + entry.json()
-                    );
+                    throw new InvalidResourceException(String.format(
+                        "Duplicate key %s", entry
+                    ));
                 }
                 ticketById.put(entry.id(), ticket);
             }
         } catch (InvalidValueException | JsonField.InvalidJsonException e) {
-            throw new InvalidResourceException(
-                    "Invalid resource " + json + " as " + e.getMessage(), e);
+            throw new InvalidJsonResourceException(json, e);
         }
     }
 
     @Override
-    public JsonTicketEntry ticketWithId(int id) {
+    public JsonTicketEntry ticketWithId(int id) throws ResourceNotFoundException {
         Map<String, Object> ticket = ticketById.get(id);
         if (ticket == null) {
-            throw new ResourceNotFoundException(
-                    "No ticket with id " + id);
+            throw new ResourceNotFoundException(String.format(
+                "No ticket with id %d", id)
+            );
         }
         return new JsonTicketEntry(ticket);
     }
@@ -109,10 +106,12 @@ public final class JsonTickets extends JsonResource
     }
 
     @Override
-    public void removeWithById(int id) {
+    public void removeWithById(int id) throws ResourceNotFoundException {
         Object removed = ticketById.remove(id);
         if (removed == null) {
-            throw new ResourceNotFoundException("No ticket with id " + id);
+            throw new ResourceNotFoundException(String.format(
+                "No ticket with id %s", id)
+            );
         }
         list.remove(removed);
     }
@@ -145,7 +144,8 @@ public final class JsonTickets extends JsonResource
         public JsonTicketEntry result() {
             if (resource == null) {
                 throw new IllegalStateException(
-                    "You must execute insertion before asking for result");
+                    "You must execute insertion before asking for result"
+                );
             }
             return resource;
         }

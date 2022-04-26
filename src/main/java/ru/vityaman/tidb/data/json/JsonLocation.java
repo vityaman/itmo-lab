@@ -2,8 +2,9 @@ package ru.vityaman.tidb.data.json;
 
 import java.util.Map;
 
-import ru.vityaman.tidb.data.field.Verified;
+import ru.vityaman.tidb.data.json.exception.InvalidJsonResourceException;
 import ru.vityaman.tidb.data.json.field.JsonField;
+import ru.vityaman.tidb.data.json.field.Verified;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.data.resource.LocationResource;
@@ -13,29 +14,35 @@ import ru.vityaman.tidb.data.resource.exception.InvalidResourceException;
  * Json Location.
  */
 public final class JsonLocation extends JsonResource
-                                implements LocationResource, Location {
+                                implements LocationResource {
 
     private final Verified<Number> x;
     private final Verified<Number> y;
     private final Verified<Number> z;
     private final Verified<String> name;
 
-    public JsonLocation(Map<String, Object> json) {
+    public JsonLocation(Map<String, Object> json)
+                                        throws InvalidResourceException {
         super(json);
-
         try {
-            this.x = new Verified<>(new JsonField<>("x", this.json),
-                    x -> Location.RequireValid.x(x.floatValue()));
-            this.y = new Verified<>(new JsonField<>("y", this.json),
-                    y -> Location.RequireValid.y(y.doubleValue()));
-            this.z = new Verified<>(new JsonField<>("z", this.json),
-                    z -> Location.RequireValid.z(z.floatValue()));
-            this.name = new Verified<>(new JsonField<>("name", this.json),
-                    RequireValid::name);
+            this.x = new Verified<>(
+                new JsonField<>(this.json, "x"),
+                x -> Location.RequireValid.x(x.floatValue())
+            );
+            this.y = new Verified<>(
+                new JsonField<>(this.json, "y"),
+                y -> Location.RequireValid.y(y.doubleValue())
+            );
+            this.z = new Verified<>(
+                new JsonField<>(this.json, "z"),
+                z -> Location.RequireValid.z(z.floatValue())
+            );
+            this.name = new Verified<>(
+                new JsonField<>(this.json, "name"),
+                RequireValid::name);
         } catch (InvalidValueException | JsonField.InvalidJsonException e) {
-            throw new InvalidResourceException(
-                "Invalid resource " + json + " as " + e.getMessage(), e);
-    }
+            throw new InvalidJsonResourceException(json, e);
+        }
     }
 
     @Override

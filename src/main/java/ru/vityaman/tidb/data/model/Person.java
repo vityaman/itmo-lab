@@ -1,31 +1,15 @@
 package ru.vityaman.tidb.data.model;
 
-import ru.vityaman.tidb.data.model.exception.InvalidValueException;
-import ru.vityaman.tidb.ui.out.Out;
-
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Valid person.
- */
-public interface Person extends JsonObject, Representable {
-    /**
-     * @return height.
-     */
+import ru.vityaman.tidb.data.model.exception.InvalidValueException;
+
+public interface Person {
     int height();
-
-    /**
-     * @return passportId.
-     */
     String passportId();
-
-    /**
-     * @return location.
-     */
     Location location();
 
-    @Override
     default Map<String, Object> json() {
         return new HashMap<String, Object>() {{
             put("height", height());
@@ -34,7 +18,6 @@ public interface Person extends JsonObject, Representable {
         }};
     }
 
-    @Override
     default String representation() {
         return new StringBuilder()
             .append("{")

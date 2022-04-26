@@ -1,35 +1,44 @@
 package ru.vityaman.tidb.data.file;
 
+import java.nio.file.Path;
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ru.vityaman.tidb.data.file.exception.InvalidFileStructureException;
+import ru.vityaman.tidb.data.file.exception.FileSystemException;
+import ru.vityaman.tidb.data.file.exception.InvalidFileContentException;
 
 /**
  * Json file.
  */
 public class JsonFile extends AbstractFile<Map<String, Object>> {
-    public JsonFile(java.io.File file) {
+    public JsonFile(Path file) {
+        // TODO: TextFile charLimit
         super(file);
     }
 
-    public Map<String, Object> content() {
+    public Map<String, Object> content() throws FileSystemException,
+                                                InvalidFileContentException {
         try {
-            return new JSONObject(
-                new TextFile(origin()).content()
-            ).toMap();
+            TextFile source = new TextFile(path());
+            Map<String, Object> json = new JSONObject(source.content()).toMap();
+            return json;
         } catch (JSONException e) {
-            throw new InvalidFileStructureException(
-                "Invalid json: " + e.getMessage(), e);
+            throw new InvalidFileContentException(
+                String.format(
+                    "Invalid json: %s",
+                    e.getMessage()
+                ),
+                e
+            );
         }
     }
 
     @Override
-    public void write(Map<String, Object> json) {
-        new TextFile(origin()).write(
-            new JSONObject(json).toString()
-        );
+    public void write(Map<String, Object> object) throws FileSystemException {
+        String json = new JSONObject(object).toString();
+        TextFile destination = new TextFile(path());
+        destination.write(json);
     }
 }

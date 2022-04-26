@@ -1,8 +1,13 @@
 package ru.vityaman.tidb.data.json;
 
-import ru.vityaman.tidb.data.field.*;
+import ru.vityaman.tidb.data.json.exception.InvalidJsonResourceException;
+import ru.vityaman.tidb.data.json.field.Convertable;
+import ru.vityaman.tidb.data.json.field.Field;
 import ru.vityaman.tidb.data.json.field.JsonField;
+import ru.vityaman.tidb.data.json.field.OptionalField;
 import ru.vityaman.tidb.data.json.field.OptionalJson;
+import ru.vityaman.tidb.data.json.field.OptionalVerified;
+import ru.vityaman.tidb.data.json.field.Verified;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Ticket;
 import ru.vityaman.tidb.data.model.TicketType;
@@ -23,28 +28,35 @@ public class JsonTicket extends JsonResource
     private final JsonCoordinates coordinates;
     private final JsonPerson person;
 
-    public JsonTicket(Map<String, Object> json) {
+    public JsonTicket(Map<String, Object> json)
+                                    throws InvalidJsonResourceException {
         super(json);
-
         try {
-            this.name = new Verified<>(new JsonField<>("name", this.json),
-                Ticket.RequireValid::name);
+            this.name = new Verified<>(
+                new JsonField<>(this.json, "name"),
+                Ticket.RequireValid::name
+            );
             this.price = new OptionalVerified<>(
-                new OptionalJson<>("price", this.json),
-                Ticket.RequireValid::price);
+                new OptionalJson<>(this.json, "price"),
+                Ticket.RequireValid::price
+            );
             this.type = new Convertable<TicketType, String>(
-                new JsonField<>("type", this.json),
+                new JsonField<>(this.json, "type"),
                 Enum::toString,
-                TicketType::valueOf);
-            this.coordinates = new JsonCoordinates(new JsonField<Map<String, Object>>(
-                "coordinates", this.json).value());
-            this.person = new JsonPerson(new JsonField<Map<String, Object>>(
-                "person", this.json).value());
+                TicketType::valueOf
+            );
+            this.coordinates = new JsonCoordinates(
+                new JsonField<Map<String, Object>>(this.json,
+                    "coordinates").value()
+            );
+            this.person = new JsonPerson(
+                new JsonField<Map<String, Object>>(this.json,
+                    "person").value()
+            );
         } catch (InvalidValueException
                 | JsonField.InvalidJsonException
                 | InvalidResourceException e) {
-            throw new InvalidResourceException(
-                    "Invalid resource " + json + " as " + e.getMessage(), e);
+            throw new InvalidJsonResourceException(json, e);
         }
     }
 

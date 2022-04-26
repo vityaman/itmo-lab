@@ -24,41 +24,39 @@ public final class Help implements Executable {
 
     private void execute() {
         printc("help",
-               "list available commands");
+              "list available commands");
+        printc("history",
+              "prints last 11 executed instructions");
         printc("get id: int",
-               "prints ticket with given id");
+              "prints ticket with given id");
         printc("all",
-               "prints all tickets");
+              "prints all tickets");
         printc("exec filepath: string",
-               "executes script");
+              "executes script");
         printc("insert",
-               "inserts entered by user ticket");
+              "inserts entered by user ticket");
         printc("insert ticket: Map",
-               "inserts provided as argument ticket");
+              "inserts provided as argument ticket");
         printc("update id: int, ticket: Map",
-               "updates ticket with provided id");
+              "updates ticket with provided id");
         printc("update id: int",
-               "updates ticket entered by user");
+              "updates ticket entered by user");
         printc("remove id: int",
-               "removes ticket with given id");
-        printc("open filepath: string",
-               "opens file or creates it if does not exist");
+              "removes ticket with given id");
         printc("clear",
-               "deletes all elements in collection");
-        printc("remove_where_id_less_than id: int",
-               "removes tickets where id less than provided id");
+              "deletes all elements in collection");
+        printc("remove_id_less_than id: int",
+              "removes tickets where id less than provided id");
         printc("group_by_creation_date",
-               "prints tickets grouped by creation date");
+              "prints tickets grouped by creation date");
         printc("filter_greater_than_person",
-               "person provided by user");
+              "person provided by user");
         printc("filter_greater_than_type",
-               "type provided by user");
+              "type provided by user");
         printc("pwd",
-               "prints current working directory");
+              "prints current working directory");
         printc("save",
                "saves current collection to json file");
-       printc("dump filepath: string",
-              "saves current collection to filepath");
     }
 
     @Override
@@ -68,10 +66,10 @@ public final class Help implements Executable {
 
     private void printc(String signature, String description) {
         out.println(
-                WHITE.wrapped("> "),
-                BLUE.wrapped(signature),
-                WHITE.wrapped(" - "),
-                YELLOW.wrapped(description)
+              WHITE.wrapped("| ") +
+              BLUE.wrapped(signature) +
+              WHITE.wrapped(" --> ") +
+              YELLOW.wrapped(description)
         );
     }
 }

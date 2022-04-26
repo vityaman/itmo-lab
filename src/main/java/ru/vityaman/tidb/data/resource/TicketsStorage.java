@@ -1,10 +1,8 @@
 package ru.vityaman.tidb.data.resource;
 
-import java.io.File;
+import ru.vityaman.tidb.data.file.exception.FileSystemException;
 
 public interface TicketsStorage {
-    void open(File file);
     Tickets collection();
-    void save();
-    void save(File file);
+    void save() throws FileSystemException;
 }

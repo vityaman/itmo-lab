@@ -3,18 +3,19 @@ package ru.vityaman.tidb.data.resource;
 import ru.vityaman.tidb.data.model.Ticket;
 import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.model.TicketType;
+import ru.vityaman.tidb.data.resource.exception.ResourceException;
 
 
 public interface TicketResource extends TicketEntry {
     @Override CoordinatesResource coordinates();
     @Override PersonResource person();
 
-    void setName(String name);
-    void setPrice(int price);
-    void removePrice();
-    void setType(TicketType type);
+    void setName(String name) throws ResourceException;
+    void setPrice(int price) throws ResourceException;
+    void removePrice() throws ResourceException;
+    void setType(TicketType type) throws ResourceException;
 
-    default void updateUsing(Ticket other) {
+    default void updateUsing(Ticket other) throws ResourceException {
         setName(other.name());
         if (other.price().isPresent()) {
             setPrice(other.price().get());

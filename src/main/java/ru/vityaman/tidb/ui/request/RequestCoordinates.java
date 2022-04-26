@@ -1,6 +1,6 @@
 package ru.vityaman.tidb.ui.request;
 
-import ru.vityaman.tidb.data.dto.CoordinatesInfo;
+import ru.vityaman.tidb.data.dto.CoordinatesData;
 import ru.vityaman.tidb.data.model.Coordinates;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.ui.input.Input;
@@ -34,7 +34,7 @@ public final class RequestCoordinates implements RequestInput<Coordinates> {
 
     @Override
     public Coordinates from(Input in, Out out) {
-        CoordinatesInfo.Builder coordinates = CoordinatesInfo.builder();
+        CoordinatesData.Builder coordinates = CoordinatesData.builder();
 
         out.print("coordinates: " + BLUE.wrapped("{\n"));
 

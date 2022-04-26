@@ -7,9 +7,14 @@ import ru.vityaman.tidb.data.model.Coordinates;
 /**
  * Coordinates Bean.
  */
-public final class CoordinatesInfo implements Coordinates {
+public final class CoordinatesData implements Coordinates {
     private final double x;
     private final double y;
+
+    public CoordinatesData(Coordinates other) {
+        x = other.x();
+        y = other.y();
+    }
 
     public double x() {
         return x;
@@ -39,12 +44,12 @@ public final class CoordinatesInfo implements Coordinates {
             return this;
         }
 
-        public CoordinatesInfo instance() {
-            return new CoordinatesInfo(this);
+        public CoordinatesData instance() {
+            return new CoordinatesData(this);
         }
     }
 
-    private CoordinatesInfo(Builder builder) {
+    private CoordinatesData(Builder builder) {
         // TODO: custom exception
         x = Objects.requireNonNull(builder.x);
         y = Objects.requireNonNull(builder.y);

@@ -7,28 +7,12 @@ import java.util.Objects;
 /**
  * Valid location.
  */
-public interface Location extends JsonObject, Representable {
-    /**
-     * @return x
-     */
+public interface Location {
     float x();
-
-    /**
-     * @return y
-     */
     double y();
-
-    /**
-     * @return z
-     */
     float z();
-
-    /**
-     * @return name
-     */
     String name();
 
-    @Override
     default Map<String, Object> json() {
         return new HashMap<String, Object>() {{
             put("x", x());
@@ -38,7 +22,6 @@ public interface Location extends JsonObject, Representable {
         }};
     }
 
-    @Override
     default String representation() {
         return new StringBuilder()
             .append("{")

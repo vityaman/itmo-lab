@@ -1,6 +1,6 @@
 package ru.vityaman.tidb.ui.request;
 
-import ru.vityaman.tidb.data.dto.TicketInfo;
+import ru.vityaman.tidb.data.dto.TicketData;
 import ru.vityaman.tidb.data.model.*;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.ui.input.Input;
@@ -56,7 +56,7 @@ public final class RequestTicket implements RequestInput<Ticket> {
 
     @Override
     public Ticket from(Input in, Out out) {
-        TicketInfo.Builder ticket = TicketInfo.builder();
+        TicketData.Builder ticket = TicketData.builder();
 
         out.print("ticket: " + PURPLE.wrapped("{\n"));
 

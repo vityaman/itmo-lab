@@ -1,8 +1,10 @@
 package ru.vityaman.tidb.data.file;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import ru.vityaman.tidb.data.file.exception.FileSystemException;
+import ru.vityaman.tidb.data.file.exception.InvalidFileContentException;
 
 public final class CreateOnWriteFile<T> implements File<T> {
     private final File<T> origin;
@@ -18,27 +20,33 @@ public final class CreateOnWriteFile<T> implements File<T> {
     }
 
     @Override
-    public void write(T content) {
-        java.io.File file = origin();
+    public void write(T content) throws FileSystemException {
+        java.io.File file = path().toFile();
         try {
             file.createNewFile();
         } catch (IOException e) {
             throw new FileSystemException(
-                String.format("Can't create a file %s", file.getPath()), e);
+                String.format(
+                    "Can't create a file %s",
+                    file.getPath()
+                ),
+                e
+            );
         }
         origin.write(content);
     }
 
     @Override
-    public T content() {
-        if (origin().exists()) {
+    public T content() throws FileSystemException,
+                              InvalidFileContentException {
+        if (path().toFile().exists()) {
             return origin.content();
         }
         return defaultContent;
     }
 
     @Override
-    public java.io.File origin() {
-        return origin.origin();
+    public Path path() {
+        return origin.path();
     }
 }

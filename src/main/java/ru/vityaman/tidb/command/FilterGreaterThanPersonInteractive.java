@@ -2,8 +2,8 @@ package ru.vityaman.tidb.command;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Supplier;
 
+import ru.vityaman.tidb.data.dto.TicketData;
 import ru.vityaman.tidb.data.model.Location;
 import ru.vityaman.tidb.data.model.Person;
 import ru.vityaman.tidb.data.resource.Tickets;
@@ -28,7 +28,7 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
 
     private final Input in;
     private final Out out;
-    private final Supplier<Tickets> tickets;
+    private final Tickets tickets;
 
     /**
      * @param in where to get input
@@ -36,7 +36,7 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
      * @param tickets source collection
      */
     public FilterGreaterThanPersonInteractive(Input in, Out out,
-                                                Supplier<Tickets> tickets) {
+                                                Tickets tickets) {
         this.in = in;
         this.out = out;
         this.tickets = tickets;
@@ -44,13 +44,11 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
 
     public void execute() {
         Person person = new RequestPerson().from(in, out);
-
-        tickets.get().all().stream()
-                .filter((ticket) ->
+        tickets.all().stream()
+                .map(TicketData::new)
+                .filter(ticket ->
                     comparator.compare(ticket.person(), person) > 0)
-                .forEach((ticket) -> {
-                    out.println(ticket.json().toString());
-                });
+                .forEach(out::println);
     }
 
     @Override
