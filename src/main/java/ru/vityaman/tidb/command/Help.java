@@ -57,6 +57,8 @@ public final class Help implements Executable {
                "prints current working directory");
         printc("save",
                "saves current collection to json file");
+       printc("dump filepath: string",
+              "saves current collection to filepath");
     }
 
     @Override

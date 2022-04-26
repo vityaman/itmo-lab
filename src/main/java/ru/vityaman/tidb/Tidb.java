@@ -1,8 +1,6 @@
 package ru.vityaman.tidb;
 
-import java.io.PrintWriter;
-import java.util.Objects;
-
+import ru.vityaman.tidb.data.file.exception.FileAccessException;
 import ru.vityaman.tidb.data.resource.exception.ResourceException;
 import ru.vityaman.tidb.ui.App;
 import ru.vityaman.tidb.ui.input.StreamInput;
@@ -11,9 +9,10 @@ import ru.vityaman.tidb.ui.out.StreamOut;
 
 public class Tidb {
     public static void main(String[] args) {
-        String filepath = Objects.requireNonNullElseGet(
-            System.getenv("TIDB_FILE"), () -> ""
-        );
+        String filepath = System.getenv("TIDB_FILE");
+        if (filepath == null) {
+            filepath = "untitled.json";
+        }
 
         try {
             App app = new App(
@@ -21,9 +20,9 @@ public class Tidb {
                 new StreamInput(System.in),
                 filepath
             );
-            
+
             app.run();
-        } catch (ResourceException e) {
+        } catch (ResourceException | FileAccessException e) {
             System.err.print(e.getMessage());
         }
     }

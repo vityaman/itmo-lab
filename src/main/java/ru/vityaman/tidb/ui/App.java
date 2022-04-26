@@ -70,7 +70,7 @@ public final class App implements Runnable {
             Command.of(new Open(storage), "open", String.class),
             Command.of(new Pwd(out), "pwd"),
             Command.of(new Exit(), "exit"),
-            Command.of(new Save(storage), "save"),
+            Command.of(new Save(storage, out), "save"),
             Command.of(new DumpArgument(storage), "dump", String.class),
             Command.of(
                 new FilterGreaterThanPersonInteractive(in, out, storage::collection),
@@ -105,7 +105,7 @@ public final class App implements Runnable {
     public void run() {
         out.println(
             "Welcome! Print 'help' to list all command!" +
-            " Opened file is " + initialFilePath + ".");
+            " Opened file is '" + initialFilePath + "'.");
         while (true) {
             try {
                 out.print("> ");

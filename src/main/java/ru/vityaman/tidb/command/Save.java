@@ -4,22 +4,32 @@ import java.util.List;
 
 import ru.vityaman.tidb.data.json.JsonTicketsStorage;
 import ru.vityaman.tidb.lang.interpreter.Executable;
+import ru.vityaman.tidb.ui.out.Out;
 
 /**
  * Represents a 'save' command.
  */
 public final class Save implements Executable {
     private final JsonTicketsStorage storage;
+    private final Out out;
 
     /**
      * @param storage storage to save
      */
-    public Save(JsonTicketsStorage storage) {
+    public Save(JsonTicketsStorage storage, Out out) {
         this.storage = storage;
+        this.out = out;
     }
 
     private void execute() {
-        storage.save();
+        if (storage.isFileExist()) {
+            storage.save();
+        } else {
+            out.println(
+                "Can't write to file, use 'dump' "
+                + "to save file with specified name"
+            );
+        }
     }
 
     @Override
