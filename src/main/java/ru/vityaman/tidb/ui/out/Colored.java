@@ -10,8 +10,7 @@ public final class Colored implements Out {
     }
 
     @Override
-    public Out print(String text) {
+    public void print(String text) {
         origin.print(color.wrapped(text));
-        return this;
     }
 }

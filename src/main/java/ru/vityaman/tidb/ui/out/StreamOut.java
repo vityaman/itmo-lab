@@ -1,7 +1,11 @@
 package ru.vityaman.tidb.ui.out;
 
 import java.io.PrintStream;
+import java.io.PrintWriter;
 
+/**
+ * Out using StreamWriter.
+ */
 public class StreamOut implements Out {
     private final PrintStream out;
 
@@ -10,8 +14,7 @@ public class StreamOut implements Out {
     }
 
     @Override
-    public Out print(String text) {
+    public void print(String text) {
         out.print(text);
-        return this;
     }
 }

@@ -7,6 +7,7 @@ import ru.vityaman.tidb.data.field.Field;
 import ru.vityaman.tidb.data.json.field.JsonField;
 import ru.vityaman.tidb.data.model.exception.InvalidValueException;
 import ru.vityaman.tidb.data.model.Ticket;
+import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.exception.InvalidResourceException;
 import ru.vityaman.tidb.data.resource.exception.ResourceNotFoundException;
 import ru.vityaman.tidb.data.resource.TicketResource;
@@ -46,9 +47,13 @@ public final class JsonTickets extends JsonResource
 
             this.ticketById = new HashMap<>(list.size());
             for (Map<String, Object> ticket : list) {
-                ticketById.put(
-                        new JsonTicketEntry(ticket).id(),
-                        ticket);
+                TicketEntry entry = new JsonTicketEntry(ticket);
+                if (ticketById.containsKey(entry.id())) {
+                    throw new InvalidResourceException(
+                        "Duplicate key " + entry.json()
+                    );
+                }
+                ticketById.put(entry.id(), ticket);
             }
         } catch (InvalidValueException | JsonField.InvalidJsonException e) {
             throw new InvalidResourceException(

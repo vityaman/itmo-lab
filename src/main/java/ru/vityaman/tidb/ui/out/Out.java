@@ -2,36 +2,47 @@ package ru.vityaman.tidb.ui.out;
 
 import static ru.vityaman.tidb.ui.out.ConsoleColor.RED;
 
+/**
+ * Interface represents something where you can print.
+ */
 public interface Out {
-    Out print(String text);
+    /**
+     * @param text text to print
+     * @return
+     */
+    void print(String text);
 
-    default Out print(String... texts) {
+    /**
+     * Prints arguments without separator.
+     * @param texts
+     */
+    default void print(String... texts) {
         for (String text : texts) {
             print(text);
         }
-        return this;
     }
 
-    default Out println(String text) {
-        return print(text + '\n');
+    /**
+     * Prints text and new line.
+     * @param text text to print
+     * @see print
+     */
+    default void println(String text) {
+        print(text + '\n');
     }
 
-    default Out println(String... texts) {
+    default void println(String... texts) {
         for (String text : texts) {
             print(text);
         }
-        return print("\n");
+        print("\n");
     }
 
-    default Out error(String text) {
-        return println(RED.wrapped(text));
-    }
-
-    default Out prefixed(String prefix) {
-        return new Prefixed(prefix, this);
-    }
-
-    default Out colored(ConsoleColor color) {
-        return new Colored(color, this);
+    /**
+     * Prints red text.
+     * @param text
+     */
+    default void error(String text) {
+        println(RED.wrapped(text));
     }
 }

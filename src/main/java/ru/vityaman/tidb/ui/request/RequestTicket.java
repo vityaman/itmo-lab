@@ -12,6 +12,9 @@ import static ru.vityaman.tidb.ui.out.ConsoleColor.PURPLE;
 
 import java.util.HashSet;
 
+/**
+ * Class requests ticket from user.
+ */
 public final class RequestTicket implements RequestInput<Ticket> {
     private static final RequestInput<String> NAME_REQUEST
             = new RequestPrimitive<>(

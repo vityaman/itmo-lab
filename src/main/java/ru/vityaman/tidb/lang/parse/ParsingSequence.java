@@ -6,6 +6,9 @@ import java.util.TreeSet;
 
 import static ru.vityaman.tidb.lang.parse.CharTest.equalTo;
 
+/**
+ * 
+ */
 public final class ParsingSequence {
     private static final char DEFAULT_END = 0;
     private static final Set<Character> DEFAULT_WHITESPACES = new HashSet<Character>() {{

@@ -6,9 +6,15 @@ import java.util.*;
 
 import static ru.vityaman.tidb.lang.parse.CharTest.*;
 
+/**
+ * Parses char source.
+ */
 final class Parser {
     private final ParsingSequence sequence;
 
+    /**
+     * @param source source of characters.
+     */
     Parser(CharSequence source) {
         sequence = new ParsingSequence(source);
     }

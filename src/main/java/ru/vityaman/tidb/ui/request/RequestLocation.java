@@ -12,6 +12,9 @@ import static ru.vityaman.tidb.ui.out.ConsoleColor.CYAN;
 
 import java.util.HashSet;
 
+/**
+ * Requests a location from user.
+ */
 public final class RequestLocation implements RequestInput<Location> {
     private static final RequestInput<Float> X_REQUEST
         = new RequestPrimitive<>(

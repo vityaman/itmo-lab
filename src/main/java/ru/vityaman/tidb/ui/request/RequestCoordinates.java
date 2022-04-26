@@ -12,6 +12,9 @@ import static ru.vityaman.tidb.ui.out.ConsoleColor.*;
 
 import java.util.HashSet;
 
+/**
+ * Requests coordinates from user.
+ */
 public final class RequestCoordinates implements RequestInput<Coordinates> {
     private static final RequestInput<Double> X_REQUEST
         = new RequestPrimitive<>("x: ",

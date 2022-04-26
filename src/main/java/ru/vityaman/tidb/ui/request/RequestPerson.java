@@ -13,6 +13,9 @@ import static ru.vityaman.tidb.ui.out.ConsoleColor.*;
 
 import java.util.HashSet;
 
+/**
+ * Requests person from user.
+ */
 public final class RequestPerson implements RequestInput<Person> {
     private static final RequestInput<Integer> HEIGHT_REQUEST
             = new RequestPrimitive<>(

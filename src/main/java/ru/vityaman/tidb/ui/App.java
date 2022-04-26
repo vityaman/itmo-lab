@@ -38,17 +38,25 @@ import ru.vityaman.tidb.ui.input.EndOfInputException;
 import ru.vityaman.tidb.ui.input.Input;
 import ru.vityaman.tidb.ui.out.Out;
 
-
+/**
+ * Ticket DB App.
+ */
 public final class App implements Runnable {
     private final Out out;
     private final Input in;
     private final Interpreter interpreter;
 
-    public App(
-        Out out, Input in, String initialFilePath
-    ) {
+    private final String initialFilePath;
+
+    /**
+     * @param out where to print
+     * @param in where to input
+     * @param initialFilePath filepath to open
+     */
+    public App(Out out, Input in, String initialFilePath) {
         this.out = out;
         this.in = in;
+        this.initialFilePath = initialFilePath;
 
         JsonTicketsStorage storage
             = new JsonTicketsStorage(new java.io.File(initialFilePath));
@@ -95,6 +103,9 @@ public final class App implements Runnable {
 
     @Override
     public void run() {
+        out.println(
+            "Welcome! Print 'help' to list all command!" +
+            " Opened file is " + initialFilePath + ".");
         while (true) {
             try {
                 out.print("> ");

@@ -2,8 +2,15 @@ package ru.vityaman.tidb.lang.parse;
 
 import java.util.Set;
 
+/**
+ * Utility class for testing characters.
+ */
 @FunctionalInterface
 public interface CharTest {
+    /**
+     * @param character char to test.
+     * @return true if character is valid.
+     */
     boolean test(char character);
 
     static CharTest notEqualTo(char other) {
