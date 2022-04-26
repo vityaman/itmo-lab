@@ -1,6 +1,7 @@
 package ru.vityaman.tidb;
 
 import ru.vityaman.tidb.data.file.exception.FileAccessException;
+import ru.vityaman.tidb.data.file.exception.FileSystemException;
 import ru.vityaman.tidb.data.file.exception.InvalidFileStructureException;
 import ru.vityaman.tidb.data.resource.exception.ResourceException;
 import ru.vityaman.tidb.ui.App;
@@ -23,7 +24,7 @@ public class Tidb {
             );
             app.run();
         } catch (ResourceException
-                | FileAccessException
+                | FileSystemException
                 | InvalidFileStructureException e) {
             System.err.println(e.getMessage());
         }
