@@ -2,26 +2,7 @@ package ru.vityaman.tidb.ui;
 
 import java.util.Map;
 
-import ru.vityaman.tidb.command.All;
-import ru.vityaman.tidb.command.Clear;
-import ru.vityaman.tidb.command.DumpArgument;
-import ru.vityaman.tidb.command.Exec;
-import ru.vityaman.tidb.command.Exit;
-import ru.vityaman.tidb.command.FilterGreaterThanPersonInteractive;
-import ru.vityaman.tidb.command.FilterGreaterThanTypeInteractive;
-import ru.vityaman.tidb.command.GetById;
-import ru.vityaman.tidb.command.GroupByCreationDate;
-import ru.vityaman.tidb.command.Help;
-import ru.vityaman.tidb.command.History;
-import ru.vityaman.tidb.command.InsertArgument;
-import ru.vityaman.tidb.command.InsertInteractive;
-import ru.vityaman.tidb.command.Open;
-import ru.vityaman.tidb.command.Pwd;
-import ru.vityaman.tidb.command.RemoveById;
-import ru.vityaman.tidb.command.RemoveIdLessThan;
-import ru.vityaman.tidb.command.Save;
-import ru.vityaman.tidb.command.UpdateArgument;
-import ru.vityaman.tidb.command.UpdateInteractive;
+import ru.vityaman.tidb.command.*;
 import ru.vityaman.tidb.command.exception.CommandException;
 import ru.vityaman.tidb.data.file.exception.FileAccessException;
 import ru.vityaman.tidb.data.file.exception.InvalidFileStructureException;
@@ -71,7 +52,7 @@ public final class App implements Runnable {
             Command.of(new Open(storage), "open", String.class),
             Command.of(new Pwd(out), "pwd"),
             Command.of(new Exit(), "exit"),
-            Command.of(new Save(storage, out), "save"),
+            Command.of(new Save(storage), "save"),
             Command.of(new DumpArgument(storage), "dump", String.class),
             Command.of(
                 new FilterGreaterThanPersonInteractive(in, out, storage::collection),

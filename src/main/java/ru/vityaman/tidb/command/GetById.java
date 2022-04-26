@@ -1,7 +1,5 @@
 package ru.vityaman.tidb.command;
 
-import static ru.vityaman.tidb.ui.out.ConsoleColor.RED;
-
 import java.util.List;
 import java.util.function.Supplier;
 

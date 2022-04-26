@@ -1,7 +1,6 @@
 package ru.vityaman.tidb.ui.out;
 
 import java.io.PrintStream;
-import java.io.PrintWriter;
 
 /**
  * Out using StreamWriter.

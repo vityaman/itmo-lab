@@ -3,7 +3,6 @@ package ru.vityaman.tidb.command;
 import java.util.List;
 import java.util.function.Supplier;
 
-import ru.vityaman.tidb.data.model.TicketEntry;
 import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;

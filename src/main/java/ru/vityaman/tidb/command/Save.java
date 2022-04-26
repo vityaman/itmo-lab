@@ -11,14 +11,12 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class Save implements Executable {
     private final JsonTicketsStorage storage;
-    private final Out out;
 
     /**
      * @param storage storage to save
      */
-    public Save(JsonTicketsStorage storage, Out out) {
+    public Save(JsonTicketsStorage storage) {
         this.storage = storage;
-        this.out = out;
     }
 
     private void execute() {
