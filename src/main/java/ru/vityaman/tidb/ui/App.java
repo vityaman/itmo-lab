@@ -24,6 +24,7 @@ import ru.vityaman.tidb.command.UpdateArgument;
 import ru.vityaman.tidb.command.UpdateInteractive;
 import ru.vityaman.tidb.command.exception.CommandException;
 import ru.vityaman.tidb.data.file.exception.FileAccessException;
+import ru.vityaman.tidb.data.file.exception.InvalidFileStructureException;
 import ru.vityaman.tidb.data.json.JsonTicketsStorage;
 import ru.vityaman.tidb.data.resource.exception.ResourceException;
 import ru.vityaman.tidb.lang.interpreter.Command;
@@ -113,7 +114,8 @@ public final class App implements Runnable {
                 Instruction instruction = Parse.instruction(input);
                 interpreter.execute(instruction);
             } catch (ParsingException | FileAccessException
-                   | CommandException | ResourceException e) {
+                   | CommandException | ResourceException
+                   | InvalidFileStructureException e) {
                 out.error("Error: " + e.getMessage());
             } catch (EndOfInputException e) {
                 out.println(String.format("Pokasiki as %s", e.getMessage()));

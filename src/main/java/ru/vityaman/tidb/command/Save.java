@@ -22,14 +22,7 @@ public final class Save implements Executable {
     }
 
     private void execute() {
-        if (storage.isFileExist()) {
-            storage.save();
-        } else {
-            out.println(
-                "Can't write to file, use 'dump' "
-                + "to save file with specified name"
-            );
-        }
+        storage.save();
     }
 
     @Override

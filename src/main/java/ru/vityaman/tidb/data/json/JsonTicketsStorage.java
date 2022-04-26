@@ -1,12 +1,7 @@
 package ru.vityaman.tidb.data.json;
 
-import java.util.Map;
-
-import ru.vityaman.tidb.data.file.CreateOnWriteFile;
 import ru.vityaman.tidb.data.file.File;
-import ru.vityaman.tidb.data.file.JsonFile;
 import ru.vityaman.tidb.data.file.JsonTicketsFile;
-import ru.vityaman.tidb.data.resource.Tickets;
 import ru.vityaman.tidb.data.resource.TicketsStorage;
 
 /**
@@ -33,7 +28,7 @@ public final class JsonTicketsStorage implements TicketsStorage {
 
     @Override
     public void save() {
-        file.write(tickets);
+        save(this.file.origin());
     }
 
     @Override
