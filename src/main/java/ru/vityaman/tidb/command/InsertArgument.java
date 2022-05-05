@@ -1,14 +1,16 @@
 package ru.vityaman.tidb.command;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import ru.vityaman.tidb.data.json.JsonTicket;
-import ru.vityaman.tidb.data.model.Ticket;
-import ru.vityaman.tidb.data.resource.TicketResource;
-import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.collection.base.TicketCollection;
+import ru.vityaman.tidb.collection.data.Ticket;
+import ru.vityaman.tidb.collection.data.TicketEntry;
+import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
+import ru.vityaman.tidb.collection.json.serialize.TicketSerialization;
 import ru.vityaman.tidb.lang.interpreter.Executable;
+import ru.vityaman.tidb.lang.interpreter.exception.ExecutionException;
+import ru.vityaman.tidb.lang.json.JsonObject;
+import ru.vityaman.tidb.lang.json.exception.JsonDeserializationException;
 import ru.vityaman.tidb.ui.out.Out;
 
 /**
@@ -16,33 +18,43 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class InsertArgument implements Executable {
     private final Out out;
-    private final Tickets tickets;
+    private final TicketCollection tickets;
+    private final TicketSerialization serialization;
 
     /**
      * @param out where to print out new ticket id and creation date
      * @param tickets collection to edit
      */
-    public InsertArgument(Out out, Tickets tickets) {
+    public InsertArgument(
+        Out out, 
+        TicketCollection tickets, 
+        TicketSerialization serialization
+    ) {
         this.out = out;
         this.tickets = tickets;
+        this.serialization = serialization;
     }
 
-    private void execute(Ticket ticket) {
-        TicketResource entry = tickets.insertionOf(ticket)
-                                      .execute()
-                                      .result();
-        out.println("New ticket added id: " + entry.id()
-                + ", creationDate: " + entry.creationDate());
+    private void execute(String key, Ticket ticket) throws EntryAlreadyExistsException {
+        TicketEntry inserted = tickets.insert(key, ticket);
+        out.println(String.format(
+            "New ticket added id: %s, creationDate: %s",
+            inserted.id(), inserted.creationDate()
+        ));
     }
 
     @Override
-    public void execute(List<Object> args) {
-        execute(
-            new JsonTicket(
-                new HashMap<>(
-                    (Map<String, Object>) args.get(0)
+    public void execute(List<Object> args) throws ExecutionException {
+        try {
+            execute(
+                (String) args.get(0),
+                serialization.deserialized(
+                    (JsonObject) args.get(1)
                 )
-            )
-        );
+            );
+        } catch (JsonDeserializationException 
+                | EntryAlreadyExistsException e) {
+            throw new ExecutionException(e);
+        }
     }
 }

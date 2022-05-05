@@ -1,31 +1,22 @@
 package ru.vityaman.tidb.command;
 
-import java.util.HashSet;
 import java.util.List;
 
-import ru.vityaman.tidb.data.model.TicketType;
-import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.collection.base.TicketCollection;
+import ru.vityaman.tidb.collection.data.Entry;
+import ru.vityaman.tidb.collection.data.TicketType;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.input.Input;
+import ru.vityaman.tidb.ui.input.RequestPrimitive;
 import ru.vityaman.tidb.ui.out.Out;
-import ru.vityaman.tidb.ui.request.RequestInput;
-import ru.vityaman.tidb.ui.request.RequestPrimitive;
 
 /**
  * Represents a 'filter_greater_than_type'.
  */
 public final class FilterGreaterThanTypeInteractive implements Executable {
-    private final RequestInput<TicketType> REQUEST_TYPE
-        = new RequestPrimitive<>("type: ",
-            TicketType::valueOf,
-            new HashSet<Class<? extends Exception>>() {{
-                add(IllegalArgumentException.class);
-            }}
-        );
-
-    private final Input in;
+    private final RequestPrimitive primitive;
     private final Out out;
-    private final Tickets tickets;
+    private final TicketCollection tickets;
 
     /**
      * @param in where to get input
@@ -33,15 +24,22 @@ public final class FilterGreaterThanTypeInteractive implements Executable {
      * @param tickets collection to edit
      */
     public FilterGreaterThanTypeInteractive(
-        Input in, Out out, Tickets tickets) {
-        this.in = in;
+        Input in, Out out, TicketCollection tickets
+    ) {
+        this.primitive = new RequestPrimitive(in, out);
         this.out = out;
         this.tickets = tickets;
     }
 
     private void execute() {
-        TicketType type = REQUEST_TYPE.from(in, out);
+        TicketType[] typePlace = new TicketType[1];
+        primitive.request(
+            RequestPrimitive.enumFor("type", TicketType.class), 
+            (t) -> typePlace[0] = t
+        );        
+        TicketType type = typePlace[0];
         tickets.all().stream()
+            .map(Entry::ticket)
             .filter((ticket) -> ticket.type().compareTo(type) > 0)
             .forEach(out::println);
     }

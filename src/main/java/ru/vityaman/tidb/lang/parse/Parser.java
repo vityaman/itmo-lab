@@ -1,6 +1,8 @@
 package ru.vityaman.tidb.lang.parse;
 
 import ru.vityaman.tidb.lang.interpreter.Instruction;
+import ru.vityaman.tidb.lang.json.JsonObject;
+import ru.vityaman.tidb.lang.json.MapJsonObject;
 
 import java.util.*;
 
@@ -60,9 +62,6 @@ final class Parser {
     }
 
     Object parseValue() {
-        if (sequence.current(in("tf"))) {
-            return parseBool();
-        }
         if (sequence.current(in("-0123456789"))) {
             return parseNumber();
         }
@@ -78,25 +77,22 @@ final class Parser {
         throw sequence.error("Value expected");
     }
 
-    Map<String, Object> parseObject() {
+    JsonObject parseObject() {
         sequence.expect('{');
         sequence.skipWhitespaces();
         if (sequence.take(equalTo('}'))) {
-            return new HashMap<>();
+            return new MapJsonObject();
         }
-
-        Map<String, Object> result = new HashMap<>();
-
+        JsonObject result = new MapJsonObject();
         Map.Entry<String, Object> member = parseMember();
-        result.put(member.getKey(), member.getValue());
-
+        put(result, member);
         while (sequence.take(equalTo(','))) {
             member = parseMember();
-            if (result.containsKey(member.getKey())) {
+            if (result.contains(member.getKey())) {
                 throw sequence.error(
                         String.format("Duplicate key: '%s'", member.getKey()));
             }
-            result.put(member.getKey(), member.getValue());
+            put(result, member);
         }
         sequence.expect('}');
         return result;
@@ -117,18 +113,13 @@ final class Parser {
         sequence.skipWhitespaces();
         String key = parseChars();
         sequence.skipWhitespaces();
-
         sequence.expect(':');
-
         sequence.skipWhitespaces();
         Object value = parseValue();
         sequence.skipWhitespaces();
-
         return new Map.Entry<String, Object>() {
             @Override public String getKey() { return key; }
-
             @Override public Object getValue() { return value; }
-
             @Override public Object setValue(Object o) { return null; }
         };
     }
@@ -139,11 +130,8 @@ final class Parser {
         if (sequence.take(equalTo(']'))) {
             return new ArrayList<>();
         }
-
         List<Object> result = parseValues();
-
         sequence.expect(']');
-
         return result;
     }
 
@@ -157,17 +145,7 @@ final class Parser {
             result.add(parseValue());
             sequence.skipWhitespaces();
         }
-
         return result;
-    }
-
-    Boolean parseBool() {
-        if (sequence.current(equalTo('f'))) {
-            sequence.expect("false");
-            return Boolean.FALSE;
-        }
-        sequence.expect("true");
-        return Boolean.TRUE;
     }
 
     Number parseNumber() {
@@ -184,13 +162,11 @@ final class Parser {
                 number.append(sequence.take());
             }
         }
-
         String result = number.toString();
         try { return Integer.valueOf(result); } catch (NumberFormatException ignored) {}
         try { return Long.valueOf(result); } catch (NumberFormatException ignored) {}
         try { return Float.valueOf(result); } catch (NumberFormatException ignored) {}
         try { return Double.valueOf(result); } catch (NumberFormatException ignored) {}
-
         throw sequence.error("Invalid number");
     }
 
@@ -201,5 +177,22 @@ final class Parser {
             result.append(sequence.take());
         }
         return result.toString();
+    }
+
+    private void put(JsonObject json, Map.Entry<String, Object> member) {
+        String key = member.getKey();
+        Object value = member.getValue();
+        if (value instanceof String) {
+            json.put(key, (String) value);
+        } else if (value instanceof Number) {
+            json.put(key, (Number) value);
+        } else if (value instanceof JsonObject) {
+            json.put(key, (JsonObject) value);
+        } else {
+            throw new IllegalArgumentException(String.format(
+                "Type %s is not supported",
+                value.getClass()
+            ));
+        }
     }
 }

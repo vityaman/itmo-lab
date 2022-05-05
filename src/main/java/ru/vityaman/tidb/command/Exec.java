@@ -4,8 +4,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import ru.vityaman.tidb.data.file.FileLines;
-import ru.vityaman.tidb.data.file.exception.FileSystemException;
+import ru.vityaman.tidb.file.FileLines;
+import ru.vityaman.tidb.file.exception.FileSystemException;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.lang.interpreter.Instruction;
 import ru.vityaman.tidb.lang.interpreter.Interpreter;
@@ -14,6 +14,7 @@ import ru.vityaman.tidb.lang.interpreter.exception.InterpreterException;
 import ru.vityaman.tidb.lang.interpreter.exception.RecursiveCallException;
 import ru.vityaman.tidb.lang.parse.LinesSequence;
 import ru.vityaman.tidb.lang.parse.Program;
+import ru.vityaman.tidb.ui.out.Out;
 
 
 /**
@@ -22,11 +23,13 @@ import ru.vityaman.tidb.lang.parse.Program;
  */
 public final class Exec implements Executable {
     private final Interpreter interpreter;
+    private Out out;
 
     /**
      * @param interpreter who executes commands
      */
-    public Exec(Interpreter interpreter) {
+    public Exec(Out out, Interpreter interpreter) {
+        this.out = out;
         this.interpreter = interpreter;
     }
 
@@ -40,8 +43,10 @@ public final class Exec implements Executable {
                 }
                 interpreter.execute(instruction);
             }
-        } catch (FileSystemException | InterpreterException e) {
+        } catch (FileSystemException | RecursiveCallException e) {
             throw new ExecutionException(e.getMessage(), e);
+        } catch (InterpreterException e) {
+            out.error(path + ": runtime error: " + e.getMessage());
         }
     }
 

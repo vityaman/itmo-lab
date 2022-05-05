@@ -27,8 +27,6 @@ public final class Help implements Executable {
               "list available commands");
         printc("history",
               "prints last 11 executed instructions");
-        printc("get id: int",
-              "prints ticket with given id");
         printc("all",
               "prints all tickets");
         printc("exec filepath: string",

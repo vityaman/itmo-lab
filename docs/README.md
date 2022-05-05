@@ -149,13 +149,8 @@ values
 value
     integer
     string
-    bool
     object
     list
-
-bool
-    'true'
-    'false'
 
 integer
     digits
@@ -169,7 +164,7 @@ digit
     '0' .. '9'
 
 string
-    '"' chars '"'
+    char
 
 chars
     char

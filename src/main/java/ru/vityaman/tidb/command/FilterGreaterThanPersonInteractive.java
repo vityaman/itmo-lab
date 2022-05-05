@@ -3,14 +3,14 @@ package ru.vityaman.tidb.command;
 import java.util.Comparator;
 import java.util.List;
 
-import ru.vityaman.tidb.data.dto.TicketData;
-import ru.vityaman.tidb.data.model.Location;
-import ru.vityaman.tidb.data.model.Person;
-import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.collection.base.TicketCollection;
+import ru.vityaman.tidb.collection.data.Entry;
+import ru.vityaman.tidb.collection.data.Location;
+import ru.vityaman.tidb.collection.data.Person;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.input.Input;
+import ru.vityaman.tidb.ui.input.RequestObject;
 import ru.vityaman.tidb.ui.out.Out;
-import ru.vityaman.tidb.ui.request.RequestPerson;
 
 /**
  * Represents a command 'filter_greater_than_person'.
@@ -26,26 +26,27 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
                                             + location.y() * location.y()
                                             + location.z() * location.z()));
 
-    private final Input in;
+    private final RequestObject request;
     private final Out out;
-    private final Tickets tickets;
+    private final TicketCollection tickets;
 
     /**
      * @param in where to get input
      * @param out where to print out
      * @param tickets source collection
      */
-    public FilterGreaterThanPersonInteractive(Input in, Out out,
-                                                Tickets tickets) {
-        this.in = in;
+    public FilterGreaterThanPersonInteractive(
+        Input in, Out out, TicketCollection tickets
+    ) {
+        this.request = new RequestObject(in, out);
         this.out = out;
         this.tickets = tickets;
     }
 
     public void execute() {
-        Person person = new RequestPerson().from(in, out);
+        Person person = request.person();
         tickets.all().stream()
-                .map(TicketData::new)
+                .map(Entry::ticket)
                 .filter(ticket ->
                     comparator.compare(ticket.person(), person) > 0)
                 .forEach(out::println);

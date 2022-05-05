@@ -2,8 +2,8 @@ package ru.vityaman.tidb.command;
 
 import java.util.List;
 
-import ru.vityaman.tidb.data.resource.TicketResource;
-import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.collection.CollectionFromDataset;
+import ru.vityaman.tidb.collection.data.Entry;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
 
@@ -13,21 +13,24 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class All implements Executable {
     private final Out out;
-    private final Tickets tickets;
+    private final CollectionFromDataset tickets;
 
     /**
      * @param out where to print.
      * @param tickets source of collection.
      */
-    public All(Out out, Tickets tickets) {
+    public All(Out out, CollectionFromDataset tickets) {
         this.out = out;
         this.tickets = tickets;
     }
 
     private void execute() {
-        for (TicketResource ticket : tickets.all()) {
-            out.println(ticket);
-        }
+        tickets.all().stream()
+        .forEach((e) -> 
+            out.println(
+                e.key() + ": " + e.ticket().toString()
+            )
+        );
     }
 
     @Override

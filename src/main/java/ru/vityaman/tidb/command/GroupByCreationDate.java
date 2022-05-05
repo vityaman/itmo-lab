@@ -3,9 +3,9 @@ package ru.vityaman.tidb.command;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ru.vityaman.tidb.data.dto.TicketEntryData;
-import ru.vityaman.tidb.data.model.TicketEntry;
-import ru.vityaman.tidb.data.resource.Tickets;
+import ru.vityaman.tidb.collection.base.TicketCollection;
+import ru.vityaman.tidb.collection.data.Entry;
+import ru.vityaman.tidb.collection.data.TicketEntry;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
 
@@ -14,21 +14,19 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class GroupByCreationDate implements Executable {
     private final Out out;
-    private final Tickets tickets;
+    private final TicketCollection tickets;
 
     /**
      * @param out where to print out.
      * @param tickets collection to edit.
      */
-    public GroupByCreationDate(Out out, Tickets tickets) {
+    public GroupByCreationDate(Out out, TicketCollection tickets) {
         this.out = out;
         this.tickets = tickets;
     }
 
     private void execute() {
-        tickets.all().stream()
-            .map(TicketEntryData::new)
-            .collect(Collectors.groupingBy(TicketEntry::creationDate))
+        tickets.entriesGroupedByCreationDate()
             .forEach((date, tickets) -> {
                 out.println(String.format(
                     "%s %s",

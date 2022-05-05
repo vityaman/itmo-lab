@@ -7,7 +7,7 @@ public class ExecutionException extends InterpreterException {
     }
 
     public ExecutionException(Throwable cause) {
-        super(cause);
+        this(cause.getMessage(), cause);
     }
 
     public ExecutionException(String message, Throwable cause) {
