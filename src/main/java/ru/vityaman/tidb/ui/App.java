@@ -39,6 +39,7 @@ import ru.vityaman.tidb.lang.interpreter.HistoryWriter;
 import ru.vityaman.tidb.lang.interpreter.Instruction;
 import ru.vityaman.tidb.lang.interpreter.Interpreter;
 import ru.vityaman.tidb.lang.interpreter.LimitedQueue;
+import ru.vityaman.tidb.lang.interpreter.RecursionControlInterpreter;
 import ru.vityaman.tidb.lang.interpreter.SimpleInterpreter;
 import ru.vityaman.tidb.lang.interpreter.exception.InterpreterException;
 import ru.vityaman.tidb.lang.json.JsonObject;
@@ -182,17 +183,19 @@ public final class App implements Runnable {
             )
         );
 
-        HistoryWriter historyWriter = new HistoryWriter(simple, history);
+        Interpreter main = new RecursionControlInterpreter(
+            new HistoryWriter(simple, history)
+        );
 
         simple.load(
             Command.of(
-                new Exec(out, historyWriter),
+                new Exec(out, main),
                 "exec", 
                 String.class
             )
         );
 
-        interpreter = historyWriter;
+        interpreter = main;
     }
 
     @Override

@@ -1,11 +1,8 @@
 package ru.vityaman.tidb.command;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import ru.vityaman.tidb.collection.base.TicketCollection;
-import ru.vityaman.tidb.collection.data.Entry;
-import ru.vityaman.tidb.collection.data.TicketEntry;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
 

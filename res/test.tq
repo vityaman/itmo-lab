@@ -1,10 +1,7 @@
 help
 all
+exec "res/test.tq"
 exec "res/fill.tq"
-group_by_creation_date
-remove_key_less_than "2"
-filter_greater_than_person
-filter_greater_than_type
 pwd
 all
 save

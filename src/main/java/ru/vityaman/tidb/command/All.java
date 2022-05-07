@@ -3,7 +3,6 @@ package ru.vityaman.tidb.command;
 import java.util.List;
 
 import ru.vityaman.tidb.collection.CollectionFromDataset;
-import ru.vityaman.tidb.collection.data.Entry;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
 
