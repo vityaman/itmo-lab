@@ -15,6 +15,6 @@ public final class StreamInput implements Input {
         if (in.hasNextLine()) {
             return in.nextLine();
         }
-        throw new EndOfInputException("Ctrl+D was pressed");
+        throw new EndOfInputException("End of input");
     }
 }

@@ -1,7 +1,6 @@
 package ru.vityaman.tidb.lang.interpreter;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
 import ru.vityaman.tidb.lang.interpreter.exception.ExecutionException;
@@ -23,7 +22,7 @@ implements Interpreter {
         if (callStack.contains(instruction)) {
             throw new RecursiveCallException(
                 instruction, 
-                new ArrayList<>(callStack)
+                callStack
             );
         }
         callStack.addLast(instruction);

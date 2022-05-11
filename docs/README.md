@@ -131,6 +131,7 @@ help
 ## Questions
 - Using java.util.function instead of introducing my own interfaces
 
+```
 program
     instructions
 
@@ -185,3 +186,4 @@ ws
     '\r'
     ' '
     '\t'
+```

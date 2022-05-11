@@ -1,7 +1,6 @@
 package ru.vityaman.tidb.command;
 
 import static ru.vityaman.tidb.ui.out.ConsoleColor.BLUE;
-import static ru.vityaman.tidb.ui.out.ConsoleColor.WHITE;
 import static ru.vityaman.tidb.ui.out.ConsoleColor.YELLOW;
 
 import java.util.List;
@@ -29,25 +28,27 @@ public final class Help implements Executable {
               "prints last 11 executed instructions");
         printc("all",
               "prints all tickets");
-        printc("exec \"filepath: string\"",
+        printc("exec \"filepath\"",
               "executes script");
-        printc("insert",
+        printc("insert \"key\"",
               "inserts entered by user ticket");
-        printc("insert {ticket: Map}",
+        printc("insert \"key\", {ticket}",
               "inserts provided as argument ticket");
-        printc("update id: int, {ticket: Map}",
+        printc("update id, {ticket}",
               "updates ticket with provided id");
-        printc("update id: int",
+        printc("update id",
               "updates ticket entered by user");
         printc("clear",
               "deletes all elements in collection");
-        printc("remove_key_less_than id: int",
+        printc("remove_key_less_than \"key\"",
               "removes tickets where key less than provided key");
         printc("group_by_creation_date",
               "prints tickets grouped by creation date");
-        printc("filter_greater_than_person {person: Map}",
+        printc("count_greater_than_person {person}",
               "person provided by user");
-        printc("filter_greater_than_type \"type: Strin\"",
+      printc("remove_less_than {ticket}",
+             "removes tickets, ticket provided by user");
+        printc("filter_greater_than_type \"type\"",
               "type provided by user");
         printc("pwd",
               "prints current working directory");
@@ -61,11 +62,10 @@ public final class Help implements Executable {
     }
 
     private void printc(String signature, String description) {
-        out.println(
-              WHITE.wrapped("| ") +
-              BLUE.wrapped(signature) +
-              WHITE.wrapped(" --> ") +
-              YELLOW.wrapped(description)
-        );
+        out.println(String.format(
+            "| %-45s%s", 
+            BLUE.wrapped(signature.toString()),
+            YELLOW.wrapped(description.toString())
+        ));
     }
 }

@@ -34,7 +34,7 @@ public final class Exec implements Executable {
 
     public void execute(String scriptpath) throws ExecutionException {
         Path path = Paths.get(scriptpath);
-        try (FileLines lines = new FileLines(path)) {
+        try (FileLines lines = new FileLines(path);) {
             Program program = new Program(new LinesSequence(lines));
             for (Instruction instruction : program) {
                 try {
@@ -44,7 +44,7 @@ public final class Exec implements Executable {
                 }
             }
         } catch (FileSystemException e) {
-            throw new ExecutionException(e.getMessage(), e);
+            throw new ExecutionException(e);
         } 
     }
 

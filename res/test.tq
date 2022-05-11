@@ -1,6 +1,5 @@
 help
 all
-exec "res/test.tq"
 exec "res/fill.tq"
 pwd
 all

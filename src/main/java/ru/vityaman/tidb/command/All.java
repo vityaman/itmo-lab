@@ -2,7 +2,7 @@ package ru.vityaman.tidb.command;
 
 import java.util.List;
 
-import ru.vityaman.tidb.collection.CollectionFromDataset;
+import ru.vityaman.tidb.collection.base.TicketCollection;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.ui.out.Out;
 
@@ -12,13 +12,13 @@ import ru.vityaman.tidb.ui.out.Out;
  */
 public final class All implements Executable {
     private final Out out;
-    private final CollectionFromDataset tickets;
+    private final TicketCollection tickets;
 
     /**
      * @param out where to print.
      * @param tickets source of collection.
      */
-    public All(Out out, CollectionFromDataset tickets) {
+    public All(Out out, TicketCollection tickets) {
         this.out = out;
         this.tickets = tickets;
     }

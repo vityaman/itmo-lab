@@ -26,8 +26,8 @@ public final class GroupByCreationDate implements Executable {
         tickets.entriesGroupedByCreationDate()
             .forEach((date, tickets) -> {
                 out.println(String.format(
-                    "%s %s",
-                    date.toString(), String.valueOf(tickets.size())
+                    "| date: %s, count: %s",
+                    date, tickets.size()
                 ));
                 tickets.forEach(out::println);
             });

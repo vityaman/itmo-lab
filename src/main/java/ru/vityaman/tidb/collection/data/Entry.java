@@ -22,5 +22,13 @@ public interface Entry {
         public TicketEntry ticket() {
             return ticket;
         }
+
+        @Override
+        public String toString() {
+            return String.format(
+                "\"%s\"': %s",
+                key, ticket
+            );
+        }
     }
 }

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -66,53 +67,35 @@ public final class CollectionFromDataset implements TicketCollection {
 
     // TODO: code repetition : aaaaaaaaaaaaaaaAAAAAAAaaaaaaaaaaAAAAAAAa
     public void clear() {
-        try {
-            for (String key : storage.all().stream()
-                                        .map(Entry::key)
-                                        .collect(Collectors.toSet())
-            ) {
-                storage.removeByKey(key);       
-            }
-        } catch (NoSuchEntryException ignored) {
-            // It's ok as it could happen only if
-            // someone in other thread was deleted one of entries
-            // while this deleting process
-        }
+        removeEntriesWithKeys( 
+            storage.all().stream()
+                   .map(Entry::key)
+                   .collect(Collectors.toSet())
+        );
     }
 
     public void removeAllThoseLessThan(TicketEntry given, 
                                        Comparator<TicketEntry> comparison) {
-        try {
-            for (int id : storage.all().stream()
-                                 .map(Entry::ticket)
-                                 .mapToInt(TicketEntry::id)
-                                 .toArray()
-            ) {
-                storage.removeById(id);       
-            }
-        } catch (NoSuchEntryException ignored) {
-            // It's ok as it could happen only if
-            // someone in other thread was deleted one of entries
-            // while this deleting process
-        }
+        removeEntriesWithIds(
+            storage.all().stream()
+                    .map(Entry::ticket)
+                    .filter(e -> 
+                        comparison.compare(e, given) < 0
+                    )
+                    .mapToInt(TicketEntry::id)
+                    .toArray()
+        );
     }
 
     public void removeAllThoseWithKeyLessThan(String given, 
                                               Comparator<String> comparison) {
-        try {
-            for (String existingKey : storage.all().stream()
-                                        .map(Entry::key)
-                                        .filter(k -> comparison
-                                                        .compare(k, given) < 0)
-                                        .collect(Collectors.toSet())
-            ) {
-                storage.removeByKey(existingKey);
-            }
-        } catch (NoSuchEntryException ignored) {
-            // It's ok as it could happen only if
-            // someone in other thread was deleted one of entries
-            // while this deleting process
-        }
+        removeEntriesWithKeys(
+            storage.all().stream()
+                   .map(Entry::key)
+                   .filter(k -> comparison
+                            .compare(k, given) < 0)
+                   .collect(Collectors.toSet())
+        );
     }
 
     public Map<LocalDate, List<TicketEntry>> entriesGroupedByCreationDate() {
@@ -137,10 +120,12 @@ public final class CollectionFromDataset implements TicketCollection {
         // cast to int is ok as ticket.id is int
         return (int) storage.all().stream()
                         .map(Entry::ticket)
-                        .filter(entry -> comparison.compare(
-                                    entry.person(), 
-                                    given
-                                ) > 0)
+                        .filter(entry -> 
+                            comparison.compare(
+                                entry.person(), 
+                                given
+                            ) > 0
+                        )
                         .count();
     }
 
@@ -149,5 +134,29 @@ public final class CollectionFromDataset implements TicketCollection {
                     .map(Entry::ticket)
                     .filter(entry -> entry.type().compareTo(given) > 0)
                     .collect(Collectors.toList());
+    }
+
+    private void removeEntriesWithKeys(Set<String> keys) {
+        try {
+            for (String key : keys) {
+                storage.removeByKey(key);       
+            }
+        } catch (NoSuchEntryException ignored) {
+            // It's ok as it could happen only if
+            // someone in other thread was deleted one of entries
+            // while this deleting process
+        }
+    }
+
+    private void removeEntriesWithIds(int[] ids) {
+        try {
+            for (int id : ids) {
+                storage.removeById(id);       
+            }
+        } catch (NoSuchEntryException ignored) {
+            // It's ok as it could happen only if
+            // someone in other thread was deleted one of entries
+            // while this deleting process
+        }
     }
 }

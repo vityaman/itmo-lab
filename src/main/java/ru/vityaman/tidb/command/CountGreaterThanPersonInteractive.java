@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import ru.vityaman.tidb.collection.base.TicketCollection;
-import ru.vityaman.tidb.collection.data.Entry;
 import ru.vityaman.tidb.collection.data.Location;
 import ru.vityaman.tidb.collection.data.Person;
 import ru.vityaman.tidb.lang.interpreter.Executable;
@@ -15,8 +14,8 @@ import ru.vityaman.tidb.ui.out.Out;
 /**
  * Represents a command 'filter_greater_than_person'.
  */
-public final class FilterGreaterThanPersonInteractive implements Executable {
-    private static final Comparator<Person> comparator =
+public final class CountGreaterThanPersonInteractive implements Executable {
+    private static final Comparator<Person> personComparison =
                 Comparator.comparing(Person::passportId)
                     .thenComparing(Person::height)
                     .thenComparing(Person::location,
@@ -35,7 +34,7 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
      * @param out where to print out
      * @param tickets source collection
      */
-    public FilterGreaterThanPersonInteractive(
+    public CountGreaterThanPersonInteractive(
         Input in, Out out, TicketCollection tickets
     ) {
         this.request = new RequestObject(in, out);
@@ -44,12 +43,11 @@ public final class FilterGreaterThanPersonInteractive implements Executable {
     }
 
     public void execute() {
-        Person person = request.person();
-        tickets.all().stream()
-                .map(Entry::ticket)
-                .filter(ticket ->
-                    comparator.compare(ticket.person(), person) > 0)
-                .forEach(out::println);
+        Person given = request.person();
+        out.println(
+            "Count: " +
+            tickets.countOfEntriesWithPersonGreaterThan(given, personComparison)
+        );
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 
 public final class LinesSequence implements CharSequence {
     private final Iterator<String> lines;
-
     private int row;
     private int column;
     private CharSequence currentLine;
@@ -18,6 +17,7 @@ public final class LinesSequence implements CharSequence {
     @Override
     public char next() {
         if (hasNext()) {
+            column++;
             return currentLine.next();
         }
         throw new NoSuchElementException(
@@ -31,7 +31,9 @@ public final class LinesSequence implements CharSequence {
             return true;
         }
         if (lines.hasNext()) {
+            row++;
             currentLine = new StringSequence(lines.next() + '\n');
+            column = 0;
             return hasNext();
         }
         return false;
@@ -40,9 +42,8 @@ public final class LinesSequence implements CharSequence {
     @Override
     public ParsingException error(String message) {
         return new ParsingException(String.format(
-                "Parsing error on position (%d, %d): %s",
-                row, column, message
-            )
-        );
+            "Parsing error on position (%s, %s): %s",
+            row, column, message
+        ));
     }
 }

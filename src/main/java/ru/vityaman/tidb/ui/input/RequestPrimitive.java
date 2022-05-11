@@ -37,6 +37,11 @@ public final class RequestPrimitive {
                 );
                 break;
             } catch (Exception e) {
+                if (e instanceof EndOfInputException) {
+                    throw new EndOfInputException(
+                        (EndOfInputException) e
+                    );
+                }
                 out.error(
                     "Invalid input: " + pattern.errorMessage(e)
                 );
@@ -53,7 +58,7 @@ public final class RequestPrimitive {
 
             @Override
             String errorMessage(Exception e) {
-                return "can't parse double";
+                return "can't parse double: " + e.getMessage();
             }
         };
     }
@@ -67,7 +72,7 @@ public final class RequestPrimitive {
 
             @Override
             String errorMessage(Exception e) {
-                return "can't parse float";
+                return "can't parse float: " + e.getMessage();
             }
         };
     }
@@ -90,7 +95,7 @@ public final class RequestPrimitive {
 
             @Override
             String errorMessage(Exception e) {
-                return "can't parse integer";
+                return "can't parse integer: " + e.getMessage();
             }
         };
     }
