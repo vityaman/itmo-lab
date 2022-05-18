@@ -28,7 +28,7 @@ import ru.vityaman.tidb.lang.interpreter.Command;
 import ru.vityaman.tidb.lang.interpreter.HistoryWriter;
 import ru.vityaman.tidb.lang.interpreter.Instruction;
 import ru.vityaman.tidb.lang.interpreter.Interpreter;
-import ru.vityaman.tidb.lang.interpreter.LimitedQueue;
+import ru.vityaman.tidb.lang.interpreter.ExecuteHistory;
 import ru.vityaman.tidb.lang.interpreter.RecursionControlInterpreter;
 import ru.vityaman.tidb.lang.interpreter.SimpleInterpreter;
 import ru.vityaman.tidb.lang.interpreter.exception.InterpreterException;
@@ -55,7 +55,7 @@ public final class TidbConsole implements Runnable {
 
         TicketCollection collection = tickets.collection();
 
-        LimitedQueue<Instruction> history = new LimitedQueue<>(11);
+        ExecuteHistory history = new ExecuteHistory(11);
 
         SimpleInterpreter simple = new SimpleInterpreter(
             Command.of(
@@ -71,7 +71,7 @@ public final class TidbConsole implements Runnable {
                 "clear"
             ),
             Command.of(
-                new History(out, history::elements), 
+                new History(out, history::lastNInstructions), 
                 "history"
             ),
             Command.of(

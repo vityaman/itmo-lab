@@ -5,9 +5,9 @@ import ru.vityaman.tidb.lang.interpreter.exception.InterpreterException;
 
 public class HistoryWriter implements Interpreter {
     private final Interpreter origin;
-    private LimitedQueue<Instruction> history;
+    private ExecuteHistory history;
 
-    public HistoryWriter(Interpreter origin, LimitedQueue<Instruction> history) {
+    public HistoryWriter(Interpreter origin, ExecuteHistory history) {
         this.origin = origin;
         this.history = history;
     }
@@ -20,6 +20,6 @@ public class HistoryWriter implements Interpreter {
     }
 
     public Instruction[] lastExecuted() {
-        return history.elements();
+        return history.lastNInstructions();
     }
 }

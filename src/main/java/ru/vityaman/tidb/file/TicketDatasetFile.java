@@ -11,6 +11,9 @@ import ru.vityaman.tidb.lang.json.MapJsonObject;
 import ru.vityaman.tidb.lang.json.exception.JsonConversionException;
 import ru.vityaman.tidb.lang.json.exception.JsonDeserializationException;
 
+/**
+ * File contains TicketDataset.
+ */
 public final class TicketDatasetFile implements File<TicketDataset> {
     private final JsonFile origin;
     private final DatasetSerialization serialization;

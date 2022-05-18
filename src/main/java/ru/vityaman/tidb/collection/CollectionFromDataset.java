@@ -18,9 +18,14 @@ import ru.vityaman.tidb.collection.data.TicketDataset;
 import ru.vityaman.tidb.collection.data.TicketEntry;
 import ru.vityaman.tidb.collection.data.TicketType;
 import ru.vityaman.tidb.collection.data.exception.InvalidFieldValueException;
+import ru.vityaman.tidb.collection.exception.CapacityExceededException;
 import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
 import ru.vityaman.tidb.collection.exception.NoSuchEntryException;
 
+/**
+ * Implementation of tickets collection
+ * using TicketDataset.
+ */
 public final class CollectionFromDataset implements TicketCollection {
     private final TicketsStorage storage;
     
@@ -51,7 +56,8 @@ public final class CollectionFromDataset implements TicketCollection {
     }
 
     @Override
-    public TicketEntry insert(String key, Ticket ticket) throws EntryAlreadyExistsException {
+    public TicketEntry insert(String key, Ticket ticket) 
+    throws EntryAlreadyExistsException, CapacityExceededException {
         return storage.insert(key, ticket);
     }
 

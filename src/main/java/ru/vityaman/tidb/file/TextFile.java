@@ -10,11 +10,18 @@ import ru.vityaman.tidb.file.exception.InvalidFileContentException;
 import ru.vityaman.tidb.file.exception.UncheckedFileSystemException;
 
 
+/**
+ * File with text content.
+ */
 public final class TextFile extends AbstractFile<String> {
     private static final long DEFAULT_CHAR_LIMIT = 10000L;
 
     private final long charLimit;
 
+    /**
+     * @param file
+     * @param charLimit file can't contain more characters
+     */
     public TextFile(Path file, long charLimit) {
         super(file);
         this.charLimit = charLimit;

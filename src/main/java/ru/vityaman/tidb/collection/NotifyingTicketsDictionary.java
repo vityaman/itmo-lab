@@ -7,6 +7,7 @@ import ru.vityaman.tidb.collection.base.TicketDictionary;
 import ru.vityaman.tidb.collection.data.Entry;
 import ru.vityaman.tidb.collection.data.Ticket;
 import ru.vityaman.tidb.collection.data.TicketEntry;
+import ru.vityaman.tidb.collection.exception.CapacityExceededException;
 import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
 import ru.vityaman.tidb.collection.exception.NoSuchEntryException;
 
@@ -43,7 +44,7 @@ public final class NotifyingTicketsDictionary implements TicketDictionary {
 
     @Override
     public TicketEntry insert(String key, Ticket ticket) 
-    throws EntryAlreadyExistsException {
+    throws EntryAlreadyExistsException, CapacityExceededException {
         TicketEntry inserted = origin.insert(key, ticket);
         ticketInsertion.occure(inserted);
         return inserted;

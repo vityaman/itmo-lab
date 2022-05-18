@@ -12,9 +12,14 @@ import ru.vityaman.tidb.collection.base.TicketDictionary;
 import ru.vityaman.tidb.collection.data.Entry;
 import ru.vityaman.tidb.collection.data.Ticket;
 import ru.vityaman.tidb.collection.data.TicketEntry;
+import ru.vityaman.tidb.collection.exception.CapacityExceededException;
 import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
 import ru.vityaman.tidb.collection.exception.NoSuchEntryException;
 
+/**
+ * Implementation of TicketDictionary using 
+ * java.util.Map to store data.
+ */
 public class MapTicketsDictionary implements TicketDictionary {
     private final Clock clock;
     private int nextId;
@@ -67,11 +72,17 @@ public class MapTicketsDictionary implements TicketDictionary {
 
     @Override
     public TicketEntry insert(String key, Ticket ticket) 
-    throws EntryAlreadyExistsException {
+    throws EntryAlreadyExistsException, CapacityExceededException {
         if (entriesByKey.containsKey(key)) {
             throw EntryAlreadyExistsException.withKey(key);
         }
         int id = nextId++;
+        if (id <= 0) {
+            nextId--;
+            throw new CapacityExceededException(
+                "Collection capacity exceeded"
+            );
+        }
         TicketEntry entryToBeInserted = new TicketEntry(
             id, 
             Date.from(clock.instant()), 

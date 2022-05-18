@@ -5,12 +5,12 @@ import java.util.List;
 import ru.vityaman.tidb.collection.base.TicketCollection;
 import ru.vityaman.tidb.collection.data.Ticket;
 import ru.vityaman.tidb.collection.data.TicketEntry;
-import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
+import ru.vityaman.tidb.collection.exception.CollectionException;
 import ru.vityaman.tidb.lang.interpreter.Executable;
+import ru.vityaman.tidb.lang.interpreter.exception.ExecutionException;
 import ru.vityaman.tidb.ui.input.Input;
 import ru.vityaman.tidb.ui.input.RequestObject;
 import ru.vityaman.tidb.ui.out.Out;
-import ru.vityaman.tidb.lang.interpreter.exception.ExecutionException;
 
 /**
  * Represents a 'insert' command with user input.
@@ -32,7 +32,8 @@ public final class InsertInteractive implements Executable {
         this.tickets = tickets;
     }
 
-    private void execute(String key) throws EntryAlreadyExistsException {
+    private void execute(String key) 
+    throws CollectionException {
         Ticket ticket = request.ticket();
         TicketEntry entry = tickets.insert(key, ticket);
         out.println(String.format(
@@ -45,7 +46,7 @@ public final class InsertInteractive implements Executable {
     public void execute(List<Object> args) throws ExecutionException {
         try {
             execute((String) args.get(0));
-        } catch (EntryAlreadyExistsException e) {
+        } catch (CollectionException e) {
             throw new ExecutionException(e);
         }
     }

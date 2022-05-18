@@ -6,6 +6,10 @@ import ru.vityaman.tidb.file.File;
 import ru.vityaman.tidb.file.exception.FileSystemException;
 import ru.vityaman.tidb.file.exception.InvalidFileContentException;
 
+/**
+ * Ticket collection that can be retrieved and saved
+ * to file.
+ */
 public final class TicketsFromFile {
     private final File<TicketDataset> file;
     private final CollectionFromDataset collection;

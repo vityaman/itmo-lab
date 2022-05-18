@@ -5,7 +5,7 @@ import java.util.List;
 import ru.vityaman.tidb.collection.base.TicketCollection;
 import ru.vityaman.tidb.collection.data.Ticket;
 import ru.vityaman.tidb.collection.data.TicketEntry;
-import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
+import ru.vityaman.tidb.collection.exception.CollectionException;
 import ru.vityaman.tidb.collection.json.serialize.TicketSerialization;
 import ru.vityaman.tidb.lang.interpreter.Executable;
 import ru.vityaman.tidb.lang.interpreter.exception.ExecutionException;
@@ -35,7 +35,7 @@ public final class InsertArgument implements Executable {
         this.serialization = serialization;
     }
 
-    private void execute(String key, Ticket ticket) throws EntryAlreadyExistsException {
+    private void execute(String key, Ticket ticket) throws CollectionException {
         TicketEntry inserted = tickets.insert(key, ticket);
         out.println(String.format(
             "New ticket added id: %s, creationDate: %s",
@@ -53,7 +53,7 @@ public final class InsertArgument implements Executable {
                 )
             );
         } catch (JsonDeserializationException 
-                | EntryAlreadyExistsException e) {
+                | CollectionException e) {
             throw new ExecutionException(e);
         }
     }

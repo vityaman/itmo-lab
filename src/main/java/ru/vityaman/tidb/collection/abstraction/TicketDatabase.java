@@ -1,13 +1,9 @@
-package ru.vityaman.tidb.collection.base;
+package ru.vityaman.tidb.collection.abstraction;
 
-import ru.vityaman.tidb.collection.data.Ticket;
-import ru.vityaman.tidb.collection.data.TicketEntry;
+import ru.vityaman.tidb.collection.data.valid.entity.Ticket;
+import ru.vityaman.tidb.collection.data.valid.entity.TicketEntry;
 import ru.vityaman.tidb.collection.exception.NoSuchEntryException;
 
-/**
- * Interface for container, that performs
- * operations using id.
- */
 public interface TicketDatabase {
     void removeById(int id) throws NoSuchEntryException;
     TicketEntry entryWithId(int id) throws NoSuchEntryException;

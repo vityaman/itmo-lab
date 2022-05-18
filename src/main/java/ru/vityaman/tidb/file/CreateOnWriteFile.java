@@ -6,6 +6,10 @@ import java.nio.file.Path;
 import ru.vityaman.tidb.file.exception.FileSystemException;
 import ru.vityaman.tidb.file.exception.InvalidFileContentException;
 
+/**
+ * Decorator that creates file on writing or returns default value
+ * if it does not exist.
+ */
 public final class CreateOnWriteFile<T> implements File<T> {
     private final File<T> origin;
     private final T defaultContent;

@@ -3,23 +3,28 @@ package ru.vityaman.tidb.lang.interpreter;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public final class LimitedQueue<T> {
+/**
+ * Queue that contains no more than given number
+ * of elements. If you add element to full queue
+ * then the oldest element will be deleted.
+ */
+public final class ExecuteHistory {
     private final int limit;
-    private final Queue<T> queue;
+    private final Queue<Instruction> queue;
 
-    public LimitedQueue(int size) {
+    public ExecuteHistory(int size) {
         limit = size;
         this.queue = new LinkedList<>();
     }
 
-    public void add(T e) {
+    public void add(Instruction e) {
         if (queue.size() >= limit) {
             queue.poll();
         }
         queue.add(e);
     }
 
-    public Instruction[] elements() {
+    public Instruction[] lastNInstructions() {
         return queue.toArray(new Instruction[0]);
     }
 }

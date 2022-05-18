@@ -10,7 +10,10 @@ import java.util.Iterator;
 import ru.vityaman.tidb.file.exception.FileSystemException;
 import ru.vityaman.tidb.file.exception.UncheckedFileSystemException;
 
-
+/**
+ * Returns an iterator of lines in file.
+ * Iterator can throw UncheckedFileSystemException.
+ */
 public final class FileLines implements AutoCloseable, Iterable<String> {
     private final Path path;
     private final BufferedReader file;
@@ -52,7 +55,6 @@ public final class FileLines implements AutoCloseable, Iterable<String> {
     public Iterator<String> iterator() {
         return new FileLinesIterator();
     }
-
     private final class FileLinesIterator implements Iterator<String> {
         private String line;
 
@@ -63,7 +65,7 @@ public final class FileLines implements AutoCloseable, Iterable<String> {
                 return line != null;
             } catch (IOException e) {
                 throw UncheckedFileSystemException
-                        .whileWorkingWith(path, e);
+                            .whileWorkingWith(path, e);
             }
         }
 

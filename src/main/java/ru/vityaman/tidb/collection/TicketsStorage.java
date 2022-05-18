@@ -8,9 +8,13 @@ import ru.vityaman.tidb.collection.base.TicketDatabase;
 import ru.vityaman.tidb.collection.data.Entry;
 import ru.vityaman.tidb.collection.data.Ticket;
 import ru.vityaman.tidb.collection.data.TicketEntry;
+import ru.vityaman.tidb.collection.exception.CapacityExceededException;
 import ru.vityaman.tidb.collection.exception.EntryAlreadyExistsException;
 import ru.vityaman.tidb.collection.exception.NoSuchEntryException;
 
+/**
+ * Composition of TicketsDictionary and TicketsDatabase.
+ */
 public final class TicketsStorage extends MapTicketsDictionary 
                                         implements TicketDatabase {
     private final Map<Integer, String> keysById;
@@ -41,7 +45,7 @@ public final class TicketsStorage extends MapTicketsDictionary
 
     @Override
     public TicketEntry insert(String key, Ticket ticket) 
-    throws EntryAlreadyExistsException {
+    throws EntryAlreadyExistsException, CapacityExceededException {
         TicketEntry inserted = super.insert(key, ticket);
         keysById.put(inserted.id(), key);
         return inserted;
