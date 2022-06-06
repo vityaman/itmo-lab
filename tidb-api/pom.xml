@@ -1,21 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>programming-lab-6</artifactId>
+    <groupId>ru.vityaman</groupId>
+    <version>1.0</version>
+  </parent>
 
-  <groupId>ru.vityaman</groupId>
-  <artifactId>programming-lab-6</artifactId>
+  <groupId>ru.vityaman.tidb.api</groupId>
+  <artifactId>tidb-api</artifactId>
   <version>1.0</version>
-
-  <name>programming-lab-6</name>
-  
-  <packaging>pom</packaging>
-  <modules>
-    <module>vion</module>
-    <module>parsing-utils</module>
-    <module>tidb-api</module>
-    <module>tidb-server</module>
-    <module>tidb-client</module>
-  </modules>
+  <name>tidb-api</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,29 +29,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  
   <build>
     <pluginManagement>
       <plugins>
-    <plugin>
-      <artifactId>maven-assembly-plugin</artifactId>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>ru.vityaman.tidb.server.ServerApp</mainClass>
-          </manifest>
-        </archive>
-        <descriptorRefs>
-          <descriptorRef>jar-with-dependencies</descriptorRef>
-        </descriptorRefs>
-      </configuration>
-    </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.1</version>
-        </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>

@@ -1,0 +1,136 @@
+package ru.vityaman.tidb.client.ui.input;
+
+import ru.vityaman.tidb.client.ui.out.Out;
+
+import java.util.Arrays;
+
+
+public final class RequestPrimitive {
+    public interface Setter<T> {
+        void take(T value) throws Exception;
+    }
+
+    public static abstract class Pattern<T> {
+        String prefix() { return ""; }
+        String prettify(String string) { return string; }
+        String errorMessage(Exception e) { return e.getMessage(); };
+        protected abstract T convert(String string) throws Exception;
+    }
+
+    private final Input in;
+    private final Out out;
+
+    public RequestPrimitive(Input in, Out out) {
+        this.in = in;
+        this.out = out;
+    }    
+
+    public <T> void request(Pattern<T> pattern, Setter<T> setter) {
+        while (true) {
+            try {
+                out.print(pattern.prefix());
+                setter.take(
+                    pattern.convert(
+                        pattern.prettify(
+                            in.readLine()
+                        )
+                    )
+                );
+                break;
+            } catch (Exception e) {
+                if (e instanceof EndOfInputException) {
+                    throw new EndOfInputException(
+                        (EndOfInputException) e
+                    );
+                }
+                out.error(
+                    "Invalid input: " + pattern.errorMessage(e)
+                );
+            }
+        }
+    }
+
+    public static Pattern<Double> doubleFor(String fieldName) {
+        return new TrimmedField<Double>(fieldName)  {
+            @Override
+            protected Double convert(String string) throws Exception {
+                return Double.parseDouble(string);
+            }
+
+            @Override
+            String errorMessage(Exception e) {
+                return "can't parse double: " + e.getMessage();
+            }
+        };
+    }
+
+    public static Pattern<Float> floatFor(String fieldName) {
+        return new TrimmedField<Float>(fieldName)  {
+            @Override
+            protected Float convert(String string) throws Exception {
+                return Float.parseFloat(string);
+            }
+
+            @Override
+            String errorMessage(Exception e) {
+                return "can't parse float: " + e.getMessage();
+            }
+        };
+    }
+
+    public static Pattern<String> stringFor(String fieldName) {
+        return new TrimmedField<String>(fieldName)  {
+            @Override
+            protected String convert(String string) throws Exception {
+                return string;
+            }
+        };
+    }
+
+    public static Pattern<Integer> intFor(String fieldName) {
+        return new TrimmedField<Integer>(fieldName)  {
+            @Override
+            protected Integer convert(String string) throws Exception {
+                return Integer.parseInt(string);
+            }
+
+            @Override
+            String errorMessage(Exception e) {
+                return "can't parse integer: " + e.getMessage();
+            }
+        };
+    }
+
+    public static <T extends Enum<T>> Pattern<T> enumFor(
+        String fieldName, Class<T> enumeration
+    ) {
+        return new TrimmedField<T>(fieldName)  {
+            @Override
+            protected T convert(String string) throws Exception {
+                return Enum.valueOf(enumeration, string.toUpperCase());
+            }
+
+            @Override
+            String errorMessage(Exception e) {
+                return "must be one of " +
+                    Arrays.toString(enumeration.getEnumConstants());
+            }
+        };
+    }
+
+    public static abstract class TrimmedField<T> 
+    extends Pattern<T> {
+        private final String fieldName;
+        TrimmedField(String fieldName) {
+            this.fieldName = fieldName;
+        }
+        @Override
+        String prefix() {
+            return fieldName + ": ";
+        }
+        @Override
+        String prettify(String string) {
+            return string.trim();
+        }
+    }
+}

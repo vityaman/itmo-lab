@@ -1,0 +1,4 @@
+configuration:
+  connection:
+    address: localhost
+    port: 2222

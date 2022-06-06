@@ -1,2 +1,0 @@
-# Programming lab 5
-
